@@ -1,0 +1,19 @@
+.dropdown{
+    position: absolute;
+    top: 120%;
+    right: 5px;
+    padding: 12px;
+    border-radius: 8px;
+    width: 150px;
+    background: var(--alice-blue-top);
+    box-shadow: var(--shadow);
+    
+    & > ul li{
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        border-bottom: 1px solid var(--dodger-blue);
+        list-style: none;
+    }
+}
