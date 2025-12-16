@@ -35,12 +35,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         echo json_encode($doctors);
     }
 } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+   
     $data = json_decode(file_get_contents("php://input"));
     
     $query = "INSERT INTO diagnoses (user_id, doctor_id, diagnosis, prescriptions, suggestions, diagnosis_date) 
               VALUES (:user_id, :doctor_id, :diagnosis, :prescriptions, :suggestions, :diagnosis_date)";
     $stmt = $db->prepare($query);
-    $stmt->bindParam(":user_id", $data->user_id);
+    $stmt->bindParam(":user_id", $_GET['user_id']);
     $stmt->bindParam(":doctor_id", $data->doctor_id);
     $stmt->bindParam(":diagnosis", $data->diagnosis);
     $stmt->bindParam(":prescriptions", $data->prescriptions);

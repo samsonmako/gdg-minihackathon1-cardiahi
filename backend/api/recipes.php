@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $query = "INSERT INTO saved_recipes (user_id, recipe_id) VALUES (:user_id, :recipe_id) 
               ON DUPLICATE KEY UPDATE saved_at = CURRENT_TIMESTAMP";
     $stmt = $db->prepare($query);
-    $stmt->bindParam(":user_id", $data->user_id);
+    $stmt->bindParam(":user_id",  $_GET['user_id']);
     $stmt->bindParam(":recipe_id", $data->recipe_id);
     
     if ($stmt->execute()) {
