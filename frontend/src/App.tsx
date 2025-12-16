@@ -12,12 +12,14 @@ import StreaksPage from './pages/StreaksPage';
 import './App.css';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isAuthenticated } = useAuth();
+const { isAuthenticated } = useAuth();
+ //const isAuthenticated = true;
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
 };
 
 const PublicRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isAuthenticated } = useAuth();
+ const { isAuthenticated } = useAuth();
+ //const isAuthenticated = false;
   return !isAuthenticated ? <>{children}</> : <Navigate to="/dashboard" />;
 };
 

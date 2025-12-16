@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { 
   Heart, 
-  Users, 
   BookOpen, 
   Activity, 
   Stethoscope, 
@@ -13,6 +12,7 @@ import {
   Award,
   Clock
 } from 'lucide-react';
+import { base_host } from '../global';
 
 interface DashboardStats {
   totalCalories: number;
@@ -46,23 +46,23 @@ const Dashboard: React.FC = () => {
       const today = new Date().toISOString().split('T')[0];
       
       // Fetch today's food entries
-      const foodResponse = await axios.get(`http://localhost/backend/api/food.php?user_id=${user.id}&date=${today}`);
+      const foodResponse = await axios.get(`${base_host}api/food.php?user_id=${user.id}&date=${today}`);
       const foodData = foodResponse.data;
       
       // Fetch streaks
-      const streaksResponse = await axios.get(`http://localhost/backend/api/streaks.php?user_id=${user.id}`);
+      const streaksResponse = await axios.get(`${base_host}api/streaks.php?user_id=${user.id}`);
       const streaksData = streaksResponse.data;
       
       // Fetch saved recipes
-      const recipesResponse = await axios.get(`http://localhost/backend/api/recipes.php?user_id=${user.id}&saved=true`);
+      const recipesResponse = await axios.get(`${base_host}api/recipes.php?user_id=${user.id}&saved=true`);
       const recipesData = recipesResponse.data;
       
       // Fetch journal entries
-      const journalsResponse = await axios.get(`http://localhost/backend/api/journals.php?user_id=${user.id}`);
+      const journalsResponse = await axios.get(`${base_host}api/journals.php?user_id=${user.id}`);
       const journalsData = journalsResponse.data;
       
       // Fetch diagnoses
-      const diagnosesResponse = await axios.get(`http://localhost/backend/api/doctors.php?user_id=${user.id}`);
+      const diagnosesResponse = await axios.get(`${base_host}api/doctors.php?user_id=${user.id}`);
       const diagnosesData = diagnosesResponse.data;
       
       setStats({
@@ -105,7 +105,7 @@ const Dashboard: React.FC = () => {
       </nav>
 
       <div className="dashboard-header">
-        <h1>Welcome back, {user?.name}!</h1>
+        <h1>Welcome, {user?.name}!</h1>
         <p>Here's your health overview for today</p>
       </div>
 

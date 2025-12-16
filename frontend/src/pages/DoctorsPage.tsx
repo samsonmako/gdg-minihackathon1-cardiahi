@@ -9,8 +9,10 @@ import {
   Calendar,
   FileText,
   User,
-  X
+  X,
+  Heart
 } from 'lucide-react';
+import { base_host } from '../global';
 
 interface Doctor {
   id: number;
@@ -55,7 +57,7 @@ const DoctorsPage: React.FC = () => {
 
   const fetchDoctors = async () => {
     try {
-      const response = await axios.get('http://localhost/backend/api/doctors.php');
+      const response = await axios.get(`${base_host}api/doctors.php`);
       setDoctors(response.data);
     } catch (error) {
       console.error('Error fetching doctors:', error);
@@ -66,7 +68,7 @@ const DoctorsPage: React.FC = () => {
     if (!user) return;
     
     try {
-      const response = await axios.get(`http://localhost/backend/api/doctors.php?user_id=\${user.id}`);
+      const response = await axios.get(`${base_host}api/doctors.php?user_id=${user.id}`);
       setDiagnoses(response.data);
     } catch (error) {
       console.error('Error fetching diagnoses:', error);
@@ -79,7 +81,7 @@ const DoctorsPage: React.FC = () => {
     if (!user) return;
     
     try {
-      await axios.post(`http://localhost/backend/api/doctors.php?user_id=${user.id}`, newDiagnosis);
+      await axios.post(`${base_host}api/doctors.php?user_id=${user.id}`, newDiagnosis);
       
       setNewDiagnosis({
         doctor_id: '',
