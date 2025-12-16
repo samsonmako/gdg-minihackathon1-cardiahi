@@ -11,6 +11,7 @@ import {
   Heart,
   X
 } from 'lucide-react';
+import { base_host } from '../global';
 
 interface FoodEntry {
   id: number;
@@ -56,7 +57,7 @@ const FoodPage: React.FC = () => {
     
     try {
       const today = new Date().toISOString().split('T')[0];
-      const response = await axios.get(`http://localhost/backend/api/food.php?user_id=${user.id}&date=${today}`);
+      const response = await axios.get(`${base_host}api/food.php?user_id=${user.id}&date=${today}`);
       setFoodEntries(response.data.entries || []);
     } catch (error) {
       console.error('Error fetching food data:', error);
@@ -65,11 +66,11 @@ const FoodPage: React.FC = () => {
 
   const fetchRecipes = async () => {
     try {
-      const response = await axios.get('http://localhost/backend/api/recipes.php');
+      const response = await axios.get(`${base_host}api/recipes.php`);
       setRecipes(response.data);
       
       if (user) {
-        const savedResponse = await axios.get(`http://localhost/backend/api/recipes.php?user_id=${user.id}&saved=true`);
+        const savedResponse = await axios.get(`${base_host}api/recipes.php?user_id=${user.id}&saved=true`);
         setSavedRecipes(savedResponse.data.map((r: Recipe) => r.id));
       }
     } catch (error) {
@@ -83,7 +84,7 @@ const FoodPage: React.FC = () => {
     if (!user) return;
     
     try {
-      await axios.post(`http://localhost/backend/api/food.php?user_id=${user.id}`, {
+      await axios.post(`${base_host}api/food.php?user_id=${user.id}`, {
         ...newFoodEntry,
         calories: parseInt(newFoodEntry.calories),
         sodium: parseInt(newFoodEntry.sodium)
@@ -106,7 +107,7 @@ const FoodPage: React.FC = () => {
     if (!user) return;
     
     try {
-      await axios.post(`http://localhost/backend/api/recipes.php?user_id=\${user.id}`, {
+      await axios.post(`${base_host}api/recipes.php?user_id=${user.id}`, {
         recipe_id: recipeId
       });
       
@@ -120,7 +121,7 @@ const FoodPage: React.FC = () => {
     if (!user) return;
     
     try {
-      await axios.delete(`http://localhost/backend/api/recipes.php`, {
+      await axios.delete(`${base_host}api/recipes.php`, {
         data: { user_id: user.id, recipe_id: recipeId }
       });
       
@@ -132,7 +133,7 @@ const FoodPage: React.FC = () => {
 
   const handleGetRandomRecipe = async () => {
     try {
-      const response = await axios.get('http://localhost/backend/api/recipes.php?random=1');
+      const response = await axios.get(`${base_host}api/recipes.php?random=1`);
       if (response.data) {
         setRecipes([response.data, ...recipes.slice(0, -1)]);
       }

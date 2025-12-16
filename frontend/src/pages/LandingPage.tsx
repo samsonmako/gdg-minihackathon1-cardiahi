@@ -12,7 +12,9 @@ const LandingPage: React.FC = () => {
         </div>
         <div className="nav-links">
           <Link to="/login">Login</Link>
-          <Link to="/register" className="cta-button">Sign Up</Link>
+          <Link to="/register" className="cta-button" style={{
+            color: 'var(--primary-blue)'
+            }}>Sign Up</Link>
         </div>
       </nav>
 
@@ -90,7 +92,7 @@ const LandingPage: React.FC = () => {
             <Heart className="icon" size={25} />
             <span>CradiaHi</span>
           </div>
-          <p>&copy; 2024 CradiaHi. Your health, our priority.</p>
+          <p>&copy; 2025 CradiaHi. Your health, our priority.</p>
         </div>
       </footer>
     </div>

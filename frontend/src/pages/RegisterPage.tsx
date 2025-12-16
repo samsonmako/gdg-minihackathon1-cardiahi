@@ -47,7 +47,7 @@ const RegisterPage: React.FC = () => {
         bloodType: formData.bloodType,
         allergies: formData.allergies
       });
-      navigate('/dashboard');
+     // navigate('/dashboard');
     } catch (err) {
       setError('Registration failed. Please try again.');
     } finally {

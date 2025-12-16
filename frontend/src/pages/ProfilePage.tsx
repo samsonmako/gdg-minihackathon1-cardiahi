@@ -14,6 +14,7 @@ import {
   Save,
   X
 } from 'lucide-react';
+import { base_host } from '../global';
 
 interface UserProfile {
   id: number;
@@ -72,13 +73,13 @@ const ProfilePage: React.FC = () => {
     
     try {
       // Fetch profile and emergency contacts
-      const profileResponse = await axios.get(`http://localhost/backend/api/profile.php?user_id=${user.id}`);
+      const profileResponse = await axios.get(`${base_host}api/profile.php?user_id=${user.id}`);
       setProfile(profileResponse.data.user);
       setEditedProfile(profileResponse.data.user);
       setEmergencyContacts(profileResponse.data.emergency_contacts);
       
       // Fetch journal entries
-      const journalsResponse = await axios.get(`http://localhost/backend/api/journals.php?user_id=${user.id}`);
+      const journalsResponse = await axios.get(`${base_host}api/journals.php?user_id=${user.id}`);
       setJournalEntries(journalsResponse.data);
     } catch (error) {
       console.error('Error fetching profile data:', error);
@@ -91,7 +92,7 @@ const ProfilePage: React.FC = () => {
     if (!user) return;
     
     try {
-      await axios.put(`http://localhost/backend/api/profile.php?user_id=${user.id}`, editedProfile);
+      await axios.put(`${base_host}api/profile.php?user_id=${user.id}`, editedProfile);
       setProfile(editedProfile);
       setEditingProfile(false);
     } catch (error) {
@@ -103,7 +104,7 @@ const ProfilePage: React.FC = () => {
     if (!user) return;
     
     try {
-      await axios.post(`http://localhost/backend/api/profile.php?user_id=${user.id}`, newContact);
+      await axios.post(`${base_host}api/profile.php?user_id=${user.id}`, newContact);
       setAddingContact(false);
       setNewContact({ name: '', phone: '', relationship: '' });
       fetchProfileData();
@@ -116,7 +117,7 @@ const ProfilePage: React.FC = () => {
     if (!user || !newJournalEntry.trim()) return;
     
     try {
-      await axios.post(`http://localhost/backend/api/journals.php?user_id=\${user.id}`, {
+      await axios.post(`${base_host}api/journals.php?user_id=${user.id}`, {
         content: newJournalEntry,
         type: 'text'
       });
@@ -131,7 +132,7 @@ const ProfilePage: React.FC = () => {
     if (!user) return;
     
     try {
-      await axios.delete(`http://localhost/backend/api/journals.php`, {
+      await axios.delete(`${base_host}api/journals.php`, {
         data: { id, user_id: user.id }
       });
       fetchProfileData();

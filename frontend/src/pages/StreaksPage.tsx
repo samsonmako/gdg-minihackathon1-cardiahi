@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import { useAuth } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -12,6 +13,7 @@ import {
   Heart,
   Activity
 } from 'lucide-react';
+import { base_host } from '../global';
 
 interface Streak {
   id: number;
@@ -67,7 +69,7 @@ const StreaksPage: React.FC = () => {
     if (!user) return;
     
     try {
-      const response = await axios.get(`http://localhost/backend/api/streaks.php?user_id=${user.id}`);
+      const response = await axios.get(`${base_host}api/streaks.php?user_id=${user.id}`);
       setStreaks(response.data);
     } catch (error) {
       console.error('Error fetching streaks:', error);
@@ -76,7 +78,7 @@ const StreaksPage: React.FC = () => {
 
   const fetchExercises = async () => {
     try {
-      const response = await axios.get('http://localhost/backend/api/exercises.php');
+      const response = await axios.get(`${base_host}api/exercises.php`);
       setExercises(response.data);
     } catch (error) {
       console.error('Error fetching exercises:', error);
@@ -106,7 +108,7 @@ const StreaksPage: React.FC = () => {
     if (!user || !currentExercise) return;
     
     try {
-      await axios.post(`http://localhost/backend/api/streaks.php?user_id=${user.id}`, {
+      await axios.post(`${base_host}api/streaks.php?user_id=${user.id}`, {
         activity_type: currentExercise.name,
         completed: true
       });
