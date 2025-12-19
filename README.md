@@ -2,7 +2,7 @@
 HealthTech- Technology for wellness
 
 ---
-##Team
+ Team
 ---
 - Samson Makori
 
