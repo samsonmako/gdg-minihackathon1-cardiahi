@@ -60,7 +60,7 @@ const RegisterPage: React.FC = () => {
       <div className="auth-form register-form">
         <div className="auth-header">
           <Heart className="auth-icon" size={40} />
-          <h2>Join CradiaHi</h2>
+          <h2>Join CARDIA.HI</h2>
           <p>Start your health journey today</p>
         </div>
         

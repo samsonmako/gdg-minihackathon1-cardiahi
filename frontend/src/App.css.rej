@@ -1,0 +1,31 @@
+diff a/frontend/src/App.css b/frontend/src/App.css	(rejected hunks)
+@@ -1,16 +1,17 @@
+ :root {
+-  --primary-red: #e74c3c;
+-  --primary-blue: #3498db;
+-  --secondary-red: #c0392b;
+-  --secondary-blue: #2980b9;
+-  --background-light: #f8f9fa;
+-  --background-dark: #e8f1f2ff;
+-  --text-dark: #2c3e50;
+-  --text-light: #7f8c8d;
+-  --white: #ffffff;
+-  --border-color: #dee2e6;
+-  --success-green: #27ae60;
+-  --warning-yellow: #f39c12;
++    --primary-red: #e74c3c;
++      --primary-blue: #3498db;
++        --secondary-red: #c0392b;
++          --secondary-blue: #2980b9;
++            --background-light: #f8f9fa;
++              --background-dark: #e8f1f2ff;
++                --text-dark: #2c3e50;
++                  --text-light: #7f8c8d;
++                    --white: #ffffff;
++                      --border-color: #dee2e6;
++                        --success-green: #27ae60;
++                          --warning-yellow: #f39c12;
++                          }
+ }
+ 
+ * {

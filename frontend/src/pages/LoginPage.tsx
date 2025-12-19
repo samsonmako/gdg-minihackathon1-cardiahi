@@ -33,7 +33,7 @@ const LoginPage: React.FC = () => {
       <div className="auth-form">
         <div className="auth-header">
           <Heart className="auth-icon" size={40} />
-          <h2>Welcome Back to CradiaHi</h2>
+          <h2>Welcome Back to CARDIA.HI</h2>
           <p>Sign in to continue your health journey</p>
         </div>
         
