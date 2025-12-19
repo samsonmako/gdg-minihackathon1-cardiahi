@@ -9,8 +9,10 @@ import ProfilePage from './pages/ProfilePage';
 import FoodPage from './pages/FoodPage';
 import DoctorsPage from './pages/DoctorsPage';
 import StreaksPage from './pages/StreaksPage';
-import './App.css';
+import Footer from './footer';
+import Header from './header';
 
+ 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 const { isAuthenticated } = useAuth();
  //const isAuthenticated = true;
@@ -24,10 +26,19 @@ const PublicRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 };
 
 const App: React.FC = () => {
+
+
+
   return (
+
+
     <AuthProvider>
       <Router>
         <div className="App">
+      
+          <Header />
+    
+
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={
@@ -66,9 +77,14 @@ const App: React.FC = () => {
               </ProtectedRoute>
             } />
           </Routes>
+
+<Footer  />
+  
+  
         </div>
       </Router>
     </AuthProvider>
+
   );
 };
 

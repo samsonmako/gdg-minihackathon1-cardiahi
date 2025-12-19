@@ -8,12 +8,17 @@
     background: var(--alice-blue-top);
     box-shadow: var(--shadow);
     
-    & > ul li{
+    & > ul li, > ul a{
         height: 40px;
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        border-bottom: 1px solid var(--dodger-blue);
         list-style: none;
     }
+    & > ul li svg, > ul a svg{
+     margin-right: 12px;
+    }
+}
+.dropdown.closed{
+    display: none;
 }
