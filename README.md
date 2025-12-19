@@ -1,8 +1,11 @@
 # gdg-minihackathon1
 HealthTech- Technology for wellness
 
-#team
+---
+##Team
+
 Samson Makori
+---
 
 ## Project Overview
 
@@ -18,3 +21,11 @@ CradiaHi is a comprehensive healthcare management system designed to help patien
 - **Doctor Dashboard**: Healthcare provider interface for patient management
 
 ---
+
+## Wellness relevance 
+
+It digitizes the health care system in which patients have to keep track of their prescriptions through a book and also help patients who at the same time have to keep up with doctors recommendations 
+
+
+##How to use
+
