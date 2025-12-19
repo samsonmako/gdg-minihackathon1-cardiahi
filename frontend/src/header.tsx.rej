@@ -1,0 +1,47 @@
+diff a/frontend/src/header.tsx b/frontend/src/header.tsx	(rejected hunks)
+@@ -3,7 +3,7 @@ import type React from 'react'
+ import { useAuth } from './contexts/AuthContext'
+ import './headers.css'
+ import vite from './assets/react.svg'
+-import { useState } from 'react'
++import { useEffect, useState } from 'react'
+ import { Link, useLocation } from 'react-router-dom'
+ import { User } from 'lucide-react'
+ 
+@@ -11,9 +11,22 @@ const Header : React.FC =()=>{
+ const { user } = useAuth();
+ const [activeDropdown, setDropdown] = useState<boolean>(false);
+ const location = useLocation();
++  const [visible, setVisible] = useState(true);
++  const [lastY, setLastY] = useState(0);
++
++  useEffect(() => {
++    const onScroll = () => {
++      const currentY = window.scrollY;
++      setVisible(currentY < lastY);
++      setLastY(currentY);
++    };
++
++    window.addEventListener("scroll", onScroll);
++    return () => window.removeEventListener("scroll", onScroll);
++  }, [lastY]);
+ return (
+     <>
+-    <header>
++    <header className='scroller'>
+         <div className="right">
+             <div className="logo">
+                 <img src={vite}/>
+@@ -41,7 +54,11 @@ return (
+             </div>
+         </div>
+                 ) :(
+-                     <div className="nav-links"  >
++                     <div style={{
++                  display: 'flex',
++                  flexDirection: 'row'
++
++                }}  >
+                           <Link className={`btn ${
+ location.pathname === '/login' ? 'active' : ''
+                           }`}  to="/login" 

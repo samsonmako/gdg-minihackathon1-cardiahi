@@ -1,0 +1,3994 @@
+diff --git a/backend/api/recipes.php b/backend/api/recipes.php
+index 2704932..da9cadc 100644
+--- a/backend/api/recipes.php
++++ b/backend/api/recipes.php
+@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+         echo json_encode($recipes);
+     } else if (isset($_GET['random'])) {
+         // Get random recipe
+-        $query = "SELECT * FROM recipes ORDER BY RAND() LIMIT 1";
++        $query = "SELECT * FROM recipes ORDER BY RAND() LIMIT 10";
+         $stmt = $db->prepare($query);
+         $stmt->execute();
+         $recipe = $stmt->fetch(PDO::FETCH_ASSOC);
+diff --git a/frontend/src/App.css b/frontend/src/App.css
+index b5d3b3f..cf70181 100644
+--- a/frontend/src/App.css
++++ b/frontend/src/App.css
+@@ -1,16 +1,17 @@
+ :root {
+-  --primary-red: #e74c3c;
+-  --primary-blue: #3498db;
+-  --secondary-red: #c0392b;
+-  --secondary-blue: #2980b9;
+-  --background-light: #f8f9fa;
+-  --background-dark: #e8f1f2ff;
+-  --text-dark: #2c3e50;
+-  --text-light: #7f8c8d;
+-  --white: #ffffff;
+-  --border-color: #dee2e6;
+-  --success-green: #27ae60;
+-  --warning-yellow: #f39c12;
++    --primary-red: #e74c3c;
++      --primary-blue: #3498db;
++        --secondary-red: #c0392b;
++          --secondary-blue: #2980b9;
++            --background-light: #f8f9fa;
++              --background-dark: #e8f1f2ff;
++                --text-dark: #2c3e50;
++                  --text-light: #7f8c8d;
++                    --white: #ffffff;
++                      --border-color: #dee2e6;
++                        --success-green: #27ae60;
++                          --warning-yellow: #f39c12;
++                          }
+ }
+ 
+ * {
+@@ -70,140 +71,140 @@ a {
+ /* Landing Page */
+ .landing-page {
+   min-height: 100vh;
+-}
+-
+-.hero {
+-  background: linear-gradient(135deg, var(--primary-blue), var(--primary-red));
+-  color: var(--white);
+-  padding: 8rem 2rem;
+-  text-align: center;
+-}
+-
+-.hero h1 {
+-  font-size: 3rem;
+-  margin-bottom: 1rem;
+-}
+-
+-.hero p {
+-  font-size: 1.2rem;
+-  margin-bottom: 2rem;
+-  max-width: 600px;
+-  margin-left: auto;
+-  margin-right: auto;
+-}
+-
+-.cta-button {
+-  background: var(--white);
+-  color: var(--primary-blue);
+-  padding: 1rem 2rem;
+-  border-radius: 50px;
+-  text-decoration: none;
+-  font-weight: bold;
+-  transition: transform 0.3s, box-shadow 0.3s;
+-  display: inline-block;
+-}
+-
+-.cta-button:hover {
+-  transform: translateY(-2px);
+-  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+-}
+-
+-.features {
+-  padding: 4rem 2rem;
+-  max-width: 1200px;
+-  margin: 0 auto;
+-}
+-
+-.features h2 {
+-  text-align: center;
+-  margin-bottom: 3rem;
+-  font-size: 2.5rem;
+-  color: var(--text-dark);
+-}
+-
+-.feature-grid {
+-  display: grid;
+-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+-  gap: 2rem;
+-}
+-
+-.feature-card {
+-  background: var(--white);
+-  padding: 2rem;
+-  border-radius: 10px;
+-  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+-  text-align: center;
+-  transition: transform 0.3s;
+-}
+-
+-.feature-card:hover {
+-  transform: translateY(-5px);
+-}
+-
+-.feature-icon {
+-  color: var(--primary-blue);
+-  margin-bottom: 1rem;
+-}
+-
+-.feature-card h3 {
+-  margin-bottom: 1rem;
+-  color: var(--text-dark);
+-}
+-
+-/* Forms */
++  }
++  
++  .hero {
++    background: linear-gradient(135deg, var(--primary-blue), var(--primary-red));
++      color: var(--white);
++        padding: 8rem 2rem;
++          text-align: center;
++          }
++          
++          .hero h1 {
++            font-size: 3rem;
++              margin-bottom: 1rem;
++              }
++              
++              .hero p {
++                font-size: 1.2rem;
++                  margin-bottom: 2rem;
++                    max-width: 600px;
++                      margin-left: auto;
++                        margin-right: auto;
++                        }
++                        
++                        .cta-button {
++                          background: var(--white);
++                            color: var(--primary-blue);
++                              padding: 1rem 2rem;
++                                border-radius: 50px;
++                                  text-decoration: none;
++                                    font-weight: bold;
++                                      transition: transform 0.3s, box-shadow 0.3s;
++                                        display: inline-block;
++                                        }
++                                        
++                                        .cta-button:hover {
++                                          transform: translateY(-2px);
++                                            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
++                                            }
++                                            
++                                            .features {
++                                              padding: 4rem 2rem;
++                                                max-width: 1200px;
++                                                  margin: 0 auto;
++                                                  }
++                                                  
++                                                  .features h2 {
++                                                    text-align: center;
++                                                      margin-bottom: 3rem;
++                                                        font-size: 2.5rem;
++                                                          color: var(--text-dark);
++                                                          }
++                                                          
++                                                          .feature-grid {
++                                                            display: grid;
++                                                              grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
++                                                                gap: 2rem;
++                                                                }
++                                                                
++                                                                .feature-card {
++                                                                  background: var(--white);
++                                                                    padding: 2rem;
++                                                                      border-radius: 10px;
++                                                                        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
++                                                                          text-align: center;
++                                                                            transition: transform 0.3s;
++                                                                            }
++                                                                            
++                                                                            .feature-card:hover {
++                                                                              transform: translateY(-5px);
++                                                                              }
++                                                                              
++                                                                              .feature-icon {
++                                                                                color: var(--primary-blue);
++                                                                                  margin-bottom: 1rem;
++                                                                                  }
++                                                                                  
++                                                                                  .feature-card h3 {
++                                                                                    margin-bottom: 1rem;
++                                                                                      color: var(--text-dark);
++                                                                                      }
++                                                                                      
++                                                                                      /* Forms */
+ .auth-container {
+   display: flex;
+-  justify-content: center;
+-  align-items: center;
+-  min-height: 100vh;
+-  background: linear-gradient(135deg, var(--primary-blue), var(--primary-red));
+-}
+-
+-.auth-form {
+-  background: var(--white);
+-  padding: 2rem;
+-  border-radius: 10px;
+-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+-  width: 100%;
+-  max-width: 400px;
+-}
+-
+-.auth-form h2 {
+-  text-align: center;
+-  margin-bottom: 2rem;
+-  color: var(--text-dark);
+-}
+-
+-.form-group {
+-  margin-bottom: 1rem;
+-}
+-
+-.form-group label {
+-  display: block;
+-  margin-bottom: 0.5rem;
+-  color: var(--text-dark);
+-  font-weight: 500;
+-}
+-
+-.form-group input,
+-.form-group textarea,
+-.form-group select {
+-  width: 100%;
+-  padding: 0.75rem;
+-  border: 1px solid var(--border-color);
+-  border-radius: 5px;
+-  font-size: 1rem;
+-  transition: border-color 0.3s;
+-}
+-
+-.form-group input:focus,
+-.form-group textarea:focus,
+-.form-group select:focus {
+-  outline: none;
+-  border-color: var(--primary-blue);
+-}
+-
+-.btn {
++    justify-content: center;
++      align-items: center;
++        min-height: 100vh;
++          background: linear-gradient(135deg, var(--primary-blue), var(--primary-red));
++          }
++          
++          .auth-form {
++            background: var(--white);
++              padding: 2rem;
++                border-radius: 10px;
++                  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
++                    width: 100%;
++                      max-width: 400px;
++                      }
++                      
++                      .auth-form h2 {
++                        text-align: center;
++                          margin-bottom: 2rem;
++                            color: var(--text-dark);
++                            }
++                            
++                            .form-group {
++                              margin-bottom: 1rem;
++                              }
++                              
++                              .form-group label {
++                                display: block;
++                                  margin-bottom: 0.5rem;
++                                    color: var(--text-dark);
++                                      font-weight: 500;
++                                      }
++                                      
++                                      .form-group input,
++                                      .form-group textarea,
++                                      .form-group select {
++                                        width: 100%;
++                                          padding: 0.75rem;
++                                            border: 1px solid var(--border-color);
++                                              border-radius: 5px;
++                                                font-size: 1rem;
++                                                  transition: border-color 0.3s;
++                                                  }
++                                                  
++                                                  .form-group input:focus,
++                                                  .form-group textarea:focus,
++                                                  .form-group select:focus {
++                                                    outline: none;
++                                                      border-color: var(--primary-blue);
++                                                      }
++                                                      
++                                                      .btn {
+   padding: 0.75rem 1.5rem;
+   border: none;
+   border-radius: 5px;
+@@ -246,296 +247,296 @@ a {
+ /* Dashboard */
+ .dashboard-container {
+   padding: 2rem;
+-  max-width: 1200px;
+-  margin: 0 auto;
+-}
+-
+-.dashboard-header {
+-  margin-bottom: 2rem;
+-}
+-
+-.dashboard-header h1 {
+-  color: var(--text-dark);
+-  margin-bottom: 0.5rem;
+-}
+-
+-.dashboard-grid {
+-  display: grid;
+-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+-  gap: 2rem;
+-}
+-
+-.dashboard-card {
+-  background: var(--white);
+-  padding: 2rem;
+-  border-radius: 10px;
+-  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+-}
+-
+-.dashboard-card h3 {
+-  color: var(--primary-blue);
+-  margin-bottom: 1rem;
+-}
+-
+-.quick-actions {
+-  display: grid;
+-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+-  gap: 1rem;
+-  margin-top: 2rem;
+-}
+-
+-.action-btn {
+-  padding: 1.5rem;
+-  background: linear-gradient(135deg, var(--primary-blue), var(--primary-red));
+-  color: var(--white);
+-  border: none;
+-  border-radius: 10px;
+-  cursor: pointer;
+-  transition: transform 0.3s;
+-  text-align: center;
+-  text-decoration: none;
+-  display: flex;
+-  flex-direction: column;
+-  align-items: center;
+-  gap: 0.5rem;
+-}
+-
+-.action-btn:hover {
+-  transform: translateY(-3px);
+-  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+-}
+-
+-/* Profile Page */
+-.profile-page {
+-  padding: 2rem;
+-  max-width: 800px;
+-  margin: 0 auto;
+-}
+-
+-.profile-header {
+-  display: flex;
+-  justify-content: space-between;
+-  align-items: center;
+-  margin-bottom: 2rem;
+-}
+-
+-.profile-section {
+-  background: var(--white);
+-  padding: 2rem;
+-  border-radius: 10px;
+-  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+-  margin-bottom: 2rem;
+-}
+-
+-.profile-section h2 {
+-  color: var(--primary-blue);
+-  margin-bottom: 1.5rem;
+-}
+-
+-.info-grid {
+-  display: grid;
+-  gap: 1rem;
+-}
+-
+-.info-item {
+-  display: flex;
+-  align-items: center;
+-  gap: 1rem;
+-  padding: 0.5rem 0;
+-  border-bottom: 1px solid var(--border-color);
+-}
+-
+-.info-item:last-child {
+-  border-bottom: none;
+-}
+-
+-.emergency-contacts {
+-  margin-top: 2rem;
+-}
+-
+-.contact-item {
+-  background: var(--background-light);
+-  padding: 1rem;
+-  border-radius: 5px;
+-  margin-bottom: 1rem;
+-  display: flex;
+-  justify-content: space-between;
+-  align-items: center;
+-}
+-
+-/* Food Page */
+-.food-page {
+-  padding: 2rem;
+-  max-width: 1200px;
+-  margin: 0 auto;
+-}
+-
+-.food-tracker {
+-  background: var(--white);
+-  padding: 2rem;
+-  border-radius: 10px;
+-  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+-  margin-bottom: 2rem;
+-}
+-
+-.daily-summary {
+-  display: grid;
+-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+-  gap: 2rem;
+-  margin-bottom: 2rem;
+-}
+-
+-.summary-card {
+-  background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+-  color: var(--white);
+-  padding: 1.5rem;
+-  border-radius: 10px;
+-  text-align: center;
+-}
+-
+-.summary-card h3 {
+-  margin-bottom: 0.5rem;
+-}
+-
+-.summary-card .value {
+-  font-size: 2rem;
+-  font-weight: bold;
+-}
+-
+-.food-entry-form {
+-  margin-bottom: 2rem;
+-}
+-
+-.food-entries-list {
+-  margin-top: 2rem;
+-}
+-
+-.food-entry-item {
+-  background: var(--background-light);
+-  padding: 1rem;
+-  border-radius: 5px;
+-  margin-bottom: 1rem;
+-  display: flex;
+-  justify-content: space-between;
+-  align-items: center;
+-}
+-
+-/* Doctors Page */
+-.doctors-page {
+-  padding: 2rem;
+-  max-width: 1200px;
+-  margin: 0 auto;
+-}
+-
+-.doctors-section {
+-  background: var(--white);
+-  padding: 2rem;
+-  border-radius: 10px;
+-  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+-  margin-bottom: 2rem;
+-}
+-
+-.doctors-list {
+-  display: grid;
+-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+-  gap: 2rem;
+-}
+-
+-.doctor-card {
+-  background: var(--background-light);
+-  padding: 1.5rem;
+-  border-radius: 10px;
+-  border-left: 4px solid var(--primary-blue);
+-}
+-
+-.doctor-card h4 {
+-  color: var(--primary-blue);
+-  margin-bottom: 0.5rem;
+-}
+-
+-.diagnosis-form {
+-  margin-top: 2rem;
+-  padding-top: 2rem;
+-  border-top: 1px solid var(--border-color);
+-}
+-
+-.diagnoses-list {
+-  margin-top: 2rem;
+-}
+-
+-.diagnosis-item {
+-  background: var(--background-light);
+-  padding: 1.5rem;
+-  border-radius: 10px;
+-  margin-bottom: 1rem;
+-  border-left: 4px solid var(--primary-red);
+-}
+-
+-/* Streaks Page */
+-.streaks-page {
+-  padding: 2rem;
+-  max-width: 1200px;
+-  margin: 0 auto;
+-}
+-
+-.streaks-container {
+-  display: grid;
+-  grid-template-columns: 1fr 1fr;
+-  gap: 2rem;
+-}
+-
+-.streaks-section {
+-  background: var(--white);
+-  padding: 2rem;
+-  border-radius: 10px;
+-  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+-}
+-
+-.exercises-section {
+-  background: var(--white);
+-  padding: 2rem;
+-  border-radius: 10px;
+-  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+-}
+-
+-.streak-item {
+-  display: flex;
+-  justify-content: space-between;
+-  align-items: center;
+-  padding: 1rem;
+-  background: var(--background-light);
+-  border-radius: 5px;
+-  margin-bottom: 1rem;
+-}
+-
+-.streak-count {
+-  font-size: 1.5rem;
+-  font-weight: bold;
+-  color: var(--primary-blue);
+-}
+-
+-.exercise-card {
+-  background: var(--background-light);
+-  padding: 1.5rem;
+-  border-radius: 10px;
+-  margin-bottom: 1rem;
+-  border-left: 4px solid var(--success-green);
+-}
+-
+-.exercise-card h4 {
+-  color: var(--success-green);
+-  margin-bottom: 0.5rem;
+-}
+-
+-.timer-display {
+-  font-size: 3rem;
+-  font-weight: bold;
+-  text-align: center;
+-  margin: 2rem 0;
+-  color: var(--primary-blue);
+-}
+-
+-/* Responsive Design */
++    max-width: 1200px;
++      margin: 0 auto;
++      }
++      
++      .dashboard-header {
++        margin-bottom: 2rem;
++        }
++        
++        .dashboard-header h1 {
++          color: var(--text-dark);
++            margin-bottom: 0.5rem;
++            }
++            
++            .dashboard-grid {
++              display: grid;
++                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
++                  gap: 2rem;
++                  }
++                  
++                  .dashboard-card {
++                    background: var(--white);
++                      padding: 2rem;
++                        border-radius: 10px;
++                          box-shadow: 0 5px 20px rgba(0,0,0,0.1);
++                          }
++                          
++                          .dashboard-card h3 {
++                            color: var(--primary-blue);
++                              margin-bottom: 1rem;
++                              }
++                              
++                              .quick-actions {
++                                display: grid;
++                                  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
++                                    gap: 1rem;
++                                      margin-top: 2rem;
++                                      }
++                                      
++                                      .action-btn {
++                                        padding: 1.5rem;
++                                          background: linear-gradient(135deg, var(--primary-blue), var(--primary-red));
++                                            color: var(--white);
++                                              border: none;
++                                                border-radius: 10px;
++                                                  cursor: pointer;
++                                                    transition: transform 0.3s;
++                                                      text-align: center;
++                                                        text-decoration: none;
++                                                          display: flex;
++                                                            flex-direction: column;
++                                                              align-items: center;
++                                                                gap: 0.5rem;
++                                                                }
++                                                                
++                                                                .action-btn:hover {
++                                                                  transform: translateY(-3px);
++                                                                    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
++                                                                    }
++                                                                    
++                                                                    /* Profile Page */
++                                                                    .profile-page {
++                                                                      padding: 2rem;
++                                                                        max-width: 800px;
++                                                                          margin: 0 auto;
++                                                                          }
++                                                                          
++                                                                          .profile-header {
++                                                                            display: flex;
++                                                                              justify-content: space-between;
++                                                                                align-items: center;
++                                                                                  margin-bottom: 2rem;
++                                                                                  }
++                                                                                  
++                                                                                  .profile-section {
++                                                                                    background: var(--white);
++                                                                                      padding: 2rem;
++                                                                                        border-radius: 10px;
++                                                                                          box-shadow: 0 5px 20px rgba(0,0,0,0.1);
++                                                                                            margin-bottom: 2rem;
++                                                                                            }
++                                                                                            
++                                                                                            .profile-section h2 {
++                                                                                              color: var(--primary-blue);
++                                                                                                margin-bottom: 1.5rem;
++                                                                                                }
++                                                                                                
++                                                                                                .info-grid {
++                                                                                                  display: grid;
++                                                                                                    gap: 1rem;
++                                                                                                    }
++                                                                                                    
++                                                                                                    .info-item {
++                                                                                                      display: flex;
++                                                                                                        align-items: center;
++                                                                                                          gap: 1rem;
++                                                                                                            padding: 0.5rem 0;
++                                                                                                              border-bottom: 1px solid var(--border-color);
++                                                                                                              }
++                                                                                                              
++                                                                                                              .info-item:last-child {
++                                                                                                                border-bottom: none;
++                                                                                                                }
++                                                                                                                
++                                                                                                                .emergency-contacts {
++                                                                                                                  margin-top: 2rem;
++                                                                                                                  }
++                                                                                                                  
++                                                                                                                  .contact-item {
++                                                                                                                    background: var(--background-light);
++                                                                                                                      padding: 1rem;
++                                                                                                                        border-radius: 5px;
++                                                                                                                          margin-bottom: 1rem;
++                                                                                                                            display: flex;
++                                                                                                                              justify-content: space-between;
++                                                                                                                                align-items: center;
++                                                                                                                                }
++                                                                                                                                
++                                                                                                                                /* Food Page */
++                                                                                                                                .food-page {
++                                                                                                                                  padding: 2rem;
++                                                                                                                                    max-width: 1200px;
++                                                                                                                                      margin: 0 auto;
++                                                                                                                                      }
++                                                                                                                                      
++                                                                                                                                      .food-tracker {
++                                                                                                                                        background: var(--white);
++                                                                                                                                          padding: 2rem;
++                                                                                                                                            border-radius: 10px;
++                                                                                                                                              box-shadow: 0 5px 20px rgba(0,0,0,0.1);
++                                                                                                                                                margin-bottom: 2rem;
++                                                                                                                                                }
++                                                                                                                                                
++                                                                                                                                                .daily-summary {
++                                                                                                                                                  display: grid;
++                                                                                                                                                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
++                                                                                                                                                      gap: 2rem;
++                                                                                                                                                        margin-bottom: 2rem;
++                                                                                                                                                        }
++                                                                                                                                                        
++                                                                                                                                                        .summary-card {
++                                                                                                                                                          background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
++                                                                                                                                                            color: var(--white);
++                                                                                                                                                              padding: 1.5rem;
++                                                                                                                                                                border-radius: 10px;
++                                                                                                                                                                  text-align: center;
++                                                                                                                                                                  }
++                                                                                                                                                                  
++                                                                                                                                                                  .summary-card h3 {
++                                                                                                                                                                    margin-bottom: 0.5rem;
++                                                                                                                                                                    }
++                                                                                                                                                                    
++                                                                                                                                                                    .summary-card .value {
++                                                                                                                                                                      font-size: 2rem;
++                                                                                                                                                                        font-weight: bold;
++                                                                                                                                                                        }
++                                                                                                                                                                        
++                                                                                                                                                                        .food-entry-form {
++                                                                                                                                                                          margin-bottom: 2rem;
++                                                                                                                                                                          }
++                                                                                                                                                                          
++                                                                                                                                                                          .food-entries-list {
++                                                                                                                                                                            margin-top: 2rem;
++                                                                                                                                                                            }
++                                                                                                                                                                            
++                                                                                                                                                                            .food-entry-item {
++                                                                                                                                                                              background: var(--background-light);
++                                                                                                                                                                                padding: 1rem;
++                                                                                                                                                                                  border-radius: 5px;
++                                                                                                                                                                                    margin-bottom: 1rem;
++                                                                                                                                                                                      display: flex;
++                                                                                                                                                                                        justify-content: space-between;
++                                                                                                                                                                                          align-items: center;
++                                                                                                                                                                                          }
++                                                                                                                                                                                          
++                                                                                                                                                                                          /* Doctors Page */
++                                                                                                                                                                                          .doctors-page {
++                                                                                                                                                                                            padding: 2rem;
++                                                                                                                                                                                              max-width: 1200px;
++                                                                                                                                                                                                margin: 0 auto;
++                                                                                                                                                                                                }
++                                                                                                                                                                                                
++                                                                                                                                                                                                .doctors-section {
++                                                                                                                                                                                                  background: var(--white);
++                                                                                                                                                                                                    padding: 2rem;
++                                                                                                                                                                                                      border-radius: 10px;
++                                                                                                                                                                                                        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
++                                                                                                                                                                                                          margin-bottom: 2rem;
++                                                                                                                                                                                                          }
++                                                                                                                                                                                                          
++                                                                                                                                                                                                          .doctors-list {
++                                                                                                                                                                                                            display: grid;
++                                                                                                                                                                                                              grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
++                                                                                                                                                                                                                gap: 2rem;
++                                                                                                                                                                                                                }
++                                                                                                                                                                                                                
++                                                                                                                                                                                                                .doctor-card {
++                                                                                                                                                                                                                  background: var(--background-light);
++                                                                                                                                                                                                                    padding: 1.5rem;
++                                                                                                                                                                                                                      border-radius: 10px;
++                                                                                                                                                                                                                        border-left: 4px solid var(--primary-blue);
++                                                                                                                                                                                                                        }
++                                                                                                                                                                                                                        
++                                                                                                                                                                                                                        .doctor-card h4 {
++                                                                                                                                                                                                                          color: var(--primary-blue);
++                                                                                                                                                                                                                            margin-bottom: 0.5rem;
++                                                                                                                                                                                                                            }
++                                                                                                                                                                                                                            
++                                                                                                                                                                                                                            .diagnosis-form {
++                                                                                                                                                                                                                              margin-top: 2rem;
++                                                                                                                                                                                                                                padding-top: 2rem;
++                                                                                                                                                                                                                                  border-top: 1px solid var(--border-color);
++                                                                                                                                                                                                                                  }
++                                                                                                                                                                                                                                  
++                                                                                                                                                                                                                                  .diagnoses-list {
++                                                                                                                                                                                                                                    margin-top: 2rem;
++                                                                                                                                                                                                                                    }
++                                                                                                                                                                                                                                    
++                                                                                                                                                                                                                                    .diagnosis-item {
++                                                                                                                                                                                                                                      background: var(--background-light);
++                                                                                                                                                                                                                                        padding: 1.5rem;
++                                                                                                                                                                                                                                          border-radius: 10px;
++                                                                                                                                                                                                                                            margin-bottom: 1rem;
++                                                                                                                                                                                                                                              border-left: 4px solid var(--primary-red);
++                                                                                                                                                                                                                                              }
++                                                                                                                                                                                                                                              
++                                                                                                                                                                                                                                              /* Streaks Page */
++                                                                                                                                                                                                                                              .streaks-page {
++                                                                                                                                                                                                                                                padding: 2rem;
++                                                                                                                                                                                                                                                  max-width: 1200px;
++                                                                                                                                                                                                                                                    margin: 0 auto;
++                                                                                                                                                                                                                                                    }
++                                                                                                                                                                                                                                                    
++                                                                                                                                                                                                                                                    .streaks-container {
++                                                                                                                                                                                                                                                      display: grid;
++                                                                                                                                                                                                                                                        grid-template-columns: 1fr 1fr;
++                                                                                                                                                                                                                                                          gap: 2rem;
++                                                                                                                                                                                                                                                          }
++                                                                                                                                                                                                                                                          
++                                                                                                                                                                                                                                                          .streaks-section {
++                                                                                                                                                                                                                                                            background: var(--white);
++                                                                                                                                                                                                                                                              padding: 2rem;
++                                                                                                                                                                                                                                                                border-radius: 10px;
++                                                                                                                                                                                                                                                                  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
++                                                                                                                                                                                                                                                                  }
++                                                                                                                                                                                                                                                                  
++                                                                                                                                                                                                                                                                  .exercises-section {
++                                                                                                                                                                                                                                                                    background: var(--white);
++                                                                                                                                                                                                                                                                      padding: 2rem;
++                                                                                                                                                                                                                                                                        border-radius: 10px;
++                                                                                                                                                                                                                                                                          box-shadow: 0 5px 20px rgba(0,0,0,0.1);
++                                                                                                                                                                                                                                                                          }
++                                                                                                                                                                                                                                                                          
++                                                                                                                                                                                                                                                                          .streak-item {
++                                                                                                                                                                                                                                                                            display: flex;
++                                                                                                                                                                                                                                                                              justify-content: space-between;
++                                                                                                                                                                                                                                                                                align-items: center;
++                                                                                                                                                                                                                                                                                  padding: 1rem;
++                                                                                                                                                                                                                                                                                    background: var(--background-light);
++                                                                                                                                                                                                                                                                                      border-radius: 5px;
++                                                                                                                                                                                                                                                                                        margin-bottom: 1rem;
++                                                                                                                                                                                                                                                                                        }
++                                                                                                                                                                                                                                                                                        
++                                                                                                                                                                                                                                                                                        .streak-count {
++                                                                                                                                                                                                                                                                                          font-size: 1.5rem;
++                                                                                                                                                                                                                                                                                            font-weight: bold;
++                                                                                                                                                                                                                                                                                              color: var(--primary-blue);
++                                                                                                                                                                                                                                                                                              }
++                                                                                                                                                                                                                                                                                              
++                                                                                                                                                                                                                                                                                              .exercise-card {
++                                                                                                                                                                                                                                                                                                background: var(--background-light);
++                                                                                                                                                                                                                                                                                                  padding: 1.5rem;
++                                                                                                                                                                                                                                                                                                    border-radius: 10px;
++                                                                                                                                                                                                                                                                                                      margin-bottom: 1rem;
++                                                                                                                                                                                                                                                                                                        border-left: 4px solid var(--success-green);
++                                                                                                                                                                                                                                                                                                        }
++                                                                                                                                                                                                                                                                                                        
++                                                                                                                                                                                                                                                                                                        .exercise-card h4 {
++                                                                                                                                                                                                                                                                                                          color: var(--success-green);
++                                                                                                                                                                                                                                                                                                            margin-bottom: 0.5rem;
++                                                                                                                                                                                                                                                                                                            }
++                                                                                                                                                                                                                                                                                                            
++                                                                                                                                                                                                                                                                                                            .timer-display {
++                                                                                                                                                                                                                                                                                                              font-size: 3rem;
++                                                                                                                                                                                                                                                                                                                font-weight: bold;
++                                                                                                                                                                                                                                                                                                                  text-align: center;
++                                                                                                                                                                                                                                                                                                                    margin: 2rem 0;
++                                                                                                                                                                                                                                                                                                                      color: var(--primary-blue);
++                                                                                                                                                                                                                                                                                                                      }
++                                                                                                                                                                                                                                                                                                                      
++                                                                                                                                                                                                                                                                                                                      /* Responsive Design */
+ @media (max-width: 768px) {
+   .navbar {
+     flex-direction: row;
+diff --git a/frontend/src/footer.tsx b/frontend/src/footer.tsx
+index 56489a5..6c5f1af 100644
+--- a/frontend/src/footer.tsx
++++ b/frontend/src/footer.tsx
+@@ -7,19 +7,38 @@ import {
+   TrendingUp
+ } from 'lucide-react';
+ import { useAuth } from "./contexts/AuthContext";
++import { useEffect, useState } from "react";
+ const footer: React.FC =()=>{
+   const { user } = useAuth();
+   const location = useLocation();
++  const [visible, setVisible] = useState(true);
++  const [lastY, setLastY] = useState(0);
++
++  useEffect(() => {
++    const onScroll = () => {
++      const currentY = window.scrollY;
++      setVisible(currentY < lastY);
++      setLastY(currentY);
++    };
++
++    window.addEventListener("scroll", onScroll);
++    return () => window.removeEventListener("scroll", onScroll);
++  }, [lastY]);
++
++
+   return (
+     <>
+-   {user && (<footer>
++  
++   {user && (
++      <footer className={`footer ${visible ? "show" : "hide"}`}>
++
+       
+           <Link to="/dashboard" className={
+             ( location.pathname === '/dashboard' ) ? 'active' : ''
+           }>
+           <div className="ln">
+           <LayoutDashboard className="w-8 h-8"/>
+-          Dashboard
++         <p> Dashboard </p>
+           </div></Link>
+         
+           <Link to="/food"className={
+@@ -27,7 +46,7 @@ const footer: React.FC =()=>{
+           }>
+           <div className="ln">
+             <ChefHat className="w-8 h-8" />
+-            Food
++           <p>Food</p>
+           </div>
+           </Link>
+           <Link to="/doctors"
+@@ -36,7 +55,7 @@ const footer: React.FC =()=>{
+           }>
+           <div className="ln">
+           <Stethoscope className="w-8 h-8"/>
+-          Doctors
++         <p>Doctors</p>
+           </div>
+           </Link>
+           <Link to="/streaks"className={
+@@ -44,7 +63,7 @@ const footer: React.FC =()=>{
+           }>
+           <div className="ln">
+           <TrendingUp className="w-8 h-8"/>
+-          Streaks
++        <p>Streaks</p>
+           </div></Link>
+         
+     </footer>
+diff --git a/frontend/src/header.tsx b/frontend/src/header.tsx
+index 35f59ea..fa43503 100644
+--- a/frontend/src/header.tsx
++++ b/frontend/src/header.tsx
+@@ -3,7 +3,7 @@ import type React from 'react'
+ import { useAuth } from './contexts/AuthContext'
+ import './headers.css'
+ import vite from './assets/react.svg'
+-import { useState } from 'react'
++import { useEffect, useState } from 'react'
+ import { Link, useLocation } from 'react-router-dom'
+ import { User } from 'lucide-react'
+ 
+@@ -11,9 +11,22 @@ const Header : React.FC =()=>{
+ const { user } = useAuth();
+ const [activeDropdown, setDropdown] = useState<boolean>(false);
+ const location = useLocation();
++  const [visible, setVisible] = useState(true);
++  const [lastY, setLastY] = useState(0);
++
++  useEffect(() => {
++    const onScroll = () => {
++      const currentY = window.scrollY;
++      setVisible(currentY < lastY);
++      setLastY(currentY);
++    };
++
++    window.addEventListener("scroll", onScroll);
++    return () => window.removeEventListener("scroll", onScroll);
++  }, [lastY]);
+ return (
+     <>
+-    <header>
++    <header className='scroller'>
+         <div className="right">
+             <div className="logo">
+                 <img src={vite}/>
+@@ -41,7 +54,11 @@ return (
+             </div>
+         </div>
+                 ) :(
+-                     <div className="nav-links"  >
++                     <div style={{
++                  display: 'flex',
++                  flexDirection: 'row'
++
++                }}  >
+                           <Link className={`btn ${
+ location.pathname === '/login' ? 'active' : ''
+                           }`}  to="/login" 
+diff --git a/frontend/src/main.css b/frontend/src/main.css
+index c106e9f..e0151c3 100644
+--- a/frontend/src/main.css
++++ b/frontend/src/main.css
+@@ -9,6 +9,18 @@
+  --shadow:  0 1px 2px #00000015,
+     0 1px 2px #ffffff15,
+     0 2px 4px #ffffff30;
++  --primary-red: #e74c3c;
++  --primary-blue: #3498db;
++  --secondary-red: #c0392b;
++  --secondary-blue: #2980b9;
++  --background-light: #f8f9fa;
++  --background-dark: #e8f1f2ff;
++  --text-dark: #2c3e50;
++  --text-light: #7f8c8d;
++  --white: #ffffff;
++  --border-color: #dee2e6;
++  --success-green: #27ae60;
++  --warning-yellow: #f39c12;
+ }
+ *{
+     margin: 0;
+@@ -54,6 +66,10 @@ header{
+         width: 40px;
+         border-radius: 50%;
+     }
++    &.scroller{
++      position: sticky;
++      top: 8px;
++    }
+     & .right , & .left, & .center{
+     display: flex;
+     flex-direction: row;
+@@ -88,7 +104,7 @@ header{
+     
+ }
+ button, .btn{
+-    padding: 8px 12px;
++    padding: 12px;
+     border-radius: 8px;
+     outline: none;
+     border: 0;
+@@ -97,6 +113,11 @@ button, .btn{
+     margin: 4px;
+     box-shadow: var(--shadow);
+     color: var(--color);
++    display:flex;
++    flex-direction: row;
++    align-items: center;
++    justify-content: space-between;
++    gap: 8px;
+     &.outline{
+         background: transparent;
+         border: 1px solid var(--dodger-blue);
+@@ -105,8 +126,11 @@ button, .btn{
+         background: var(--raspberry-red);
+         transform: scale(1.1);
+     }
++   /* & > svg {
++      margin-right: 12px;
++    }*/
+ }
+-.card, .dashboard-card{
++.card{
+     padding: 12px 16px;
+     border-radius: 8px;
+     background: var(--alice-blue-top);
+@@ -145,6 +169,18 @@ footer{
+     border-radius: 8px;
+     margin: 8px;
+     box-shadow: var(--shadow);
++    transition: transform 0.3s ease, opacity 0.3s ease;
++
++
++&.hide {
++  transform: translateY(100%);
++  opacity: 0;
++}
++
++&.show {
++  transform: translateY(0);
++  opacity: 1;
++}
+     & > a > .ln{
+         display: flex;
+         flex-direction: column;
+@@ -153,31 +189,1760 @@ footer{
+         gap: 4px;
+         padding: 4px;
+     }
++  & > a > .ln > p{
++    font-size: 12px;
++  }
+ 
+ }
++ul{
++  padding: 4px;
++  display: flex;
++  flex-direction: column;
++  & > li {
++    margin: 8px;
++  }
++}
+ .active{
+     background-color: var(--raspberry-red);
+     border-radius: 8px;
+     color: var(--color);
+ }
+-@media only screen and (min-width: 500px){
+-    .grid-sm{
+-        display: grid;
+-        grid-template-columns: 1fr 1fr;
+-    }
+-    
++/* Landing Page */
++.landing-page {
++  min-height: 100vh;
+ }
+-@media only screen and (min-width: 9400px){
+-    .grid-md{
+-        display: grid;
+-        grid-template-columns: 1fr 1fr;
+-    }
+-    
++
++.hero {
++  background: linear-gradient(135deg, var(--primary-blue), var(--primary-red));
++  color: var(--white);
++  padding: 8rem 2rem;
++  text-align: center;
+ }
+-@media only screen and (min-width: 1040px){
+-    .grid-xl{
+-        display: grid;
+-        grid-template-columns: 1fr 1fr;
+-    }
+-    
+-}
+\ No newline at end of file
++
++.hero h1 {
++  font-size: 3rem;
++  margin-bottom: 1rem;
++}
++
++.hero p {
++  font-size: 1.2rem;
++  margin-bottom: 2rem;
++  max-width: 600px;
++  margin-left: auto;
++  margin-right: auto;
++}
++
++.cta-button {
++  background: var(--white);
++  color: var(--primary-blue);
++  padding: 1rem 2rem;
++  border-radius: 50px;
++  text-decoration: none;
++  font-weight: bold;
++  transition: transform 0.3s, box-shadow 0.3s;
++  display: inline-block;
++}
++
++.cta-button:hover {
++  transform: translateY(-2px);
++  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
++}
++
++.features {
++  padding: 4rem 2rem;
++  max-width: 1200px;
++  margin: 0 auto;
++}
++
++.features h2 {
++  text-align: center;
++  margin-bottom: 3rem;
++  font-size: 2.5rem;
++  color: var(--text-dark);
++}
++
++.feature-grid {
++  display: grid;
++  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
++  gap: 2rem;
++}
++
++.feature-card {
++  background: var(--white);
++  padding: 2rem;
++  border-radius: 10px;
++  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
++  text-align: center;
++  transition: transform 0.3s;
++}
++
++.feature-card:hover {
++  transform: translateY(-5px);
++}
++
++.feature-icon {
++  color: var(--primary-blue);
++  margin-bottom: 1rem;
++}
++
++.feature-card h3 {
++  margin-bottom: 1rem;
++  color: var(--text-dark);
++}
++
++
++/* Forms */
++.auth-container {
++  display: flex;
++  justify-content: center;
++  align-items: center;
++  min-height: 100vh;
++  background: linear-gradient(135deg, var(--primary-blue), var(--primary-red));
++}
++
++.auth-form {
++  background: var(--white);
++  padding: 2rem;
++  border-radius: 10px;
++  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
++  width: 100%;
++  max-width: 400px;
++}
++
++.auth-form h2 {
++  text-align: center;
++  margin-bottom: 2rem;
++  color: var(--text-dark);
++}
++
++.form-group {
++  margin-bottom: 1rem;
++}
++
++.form-group label {
++  display: block;
++  margin-bottom: 0.5rem;
++  color: var(--text-dark);
++  font-weight: 500;
++}
++
++.form-group input,
++.form-group textarea,
++.form-group select {
++  width: 100%;
++  padding: 0.75rem;
++  border: 1px solid var(--border-color);
++  border-radius: 5px;
++  font-size: 1rem;
++  transition: border-color 0.3s;
++}
++
++.form-group input:focus,
++.form-group textarea:focus,
++.form-group select:focus {
++  outline: none;
++  border-color: var(--primary-blue);
++}
++
++/* Dashboard */
++.dashboard-container {
++  padding: 2rem;
++  max-width: 1200px;
++  margin: 0 auto;
++}
++
++.dashboard-header {
++  margin-bottom: 2rem;
++}
++
++.dashboard-header h1 {
++  color: var(--text-dark);
++  margin-bottom: 0.5rem;
++}
++
++.dashboard-grid {
++  display: grid;
++  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
++  gap: 2rem;
++}
++
++.dashboard-card {
++  background: var(--white);
++  padding: 2rem;
++  border-radius: 10px;
++  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
++}
++
++.dashboard-card h3 {
++  color: var(--primary-blue);
++  margin-bottom: 1rem;
++}
++
++.quick-actions {
++  display: grid;
++  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
++  gap: 1rem;
++  margin-top: 2rem;
++}
++
++.action-btn {
++  padding: 1.5rem;
++  background: linear-gradient(135deg, var(--primary-blue), var(--primary-red));
++  color: var(--white);
++  border: none;
++  border-radius: 10px;
++  cursor: pointer;
++  transition: transform 0.3s;
++  text-align: center;
++  text-decoration: none;
++  display: flex;
++  flex-direction: column;
++  align-items: center;
++  gap: 0.5rem;
++}
++
++.action-btn:hover {
++  transform: translateY(-3px);
++  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
++}
++
++/* Profile Page */
++.profile-page {
++  padding: 2rem;
++  max-width: 800px;
++  margin: 0 auto;
++}
++
++.profile-header {
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++  margin-bottom: 2rem;
++}
++
++.profile-section {
++  background: var(--white);
++  padding: 2rem;
++  border-radius: 10px;
++  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
++  margin-bottom: 2rem;
++}
++
++.profile-section h2 {
++  color: var(--primary-blue);
++  margin-bottom: 1.5rem;
++}
++
++.info-grid {
++  display: grid;
++  gap: 1rem;
++}
++
++.info-item {
++  display: flex;
++  align-items: center;
++  gap: 1rem;
++  padding: 0.5rem 0;
++  border-bottom: 1px solid var(--border-color);
++}
++
++.info-item:last-child {
++  border-bottom: none;
++}
++
++.emergency-contacts {
++  margin-top: 2rem;
++}
++
++.contact-item {
++  background: var(--background-light);
++  padding: 1rem;
++  border-radius: 5px;
++  margin-bottom: 1rem;
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++}
++
++/* Food Page */
++.food-page {
++  padding: 2rem;
++  max-width: 1200px;
++  margin: 0 auto;
++}
++
++.food-tracker {
++  background: var(--white);
++  padding: 2rem;
++  border-radius: 10px;
++  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
++  margin-bottom: 2rem;
++}
++
++.daily-summary {
++  display: grid;
++  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
++  gap: 2rem;
++  margin-bottom: 2rem;
++}
++
++.summary-card {
++  background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
++  color: var(--white);
++  padding: 1.5rem;
++  border-radius: 10px;
++  text-align: center;
++}
++
++.summary-card h3 {
++  margin-bottom: 0.5rem;
++}
++
++.summary-card .value {
++  font-size: 2rem;
++  font-weight: bold;
++}
++
++.food-entry-form {
++  margin-bottom: 2rem;
++}
++
++.food-entries-list {
++  margin-top: 2rem;
++}
++
++.food-entry-item{
++  background: var(--background-light);
++  padding: 1rem;
++  border-radius: 5px;
++  margin-bottom: 1rem;
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++}
++
++/* Doctors Page */
++.doctors-page {
++  padding: 2rem;
++  max-width: 1200px;
++  margin: 0 auto;
++}
++
++.doctors-section {
++  background: var(--white);
++  padding: 2rem;
++  border-radius: 10px;
++  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
++  margin-bottom: 2rem;
++}
++
++.doctors-list {
++  display: grid;
++  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
++  gap: 2rem;
++}
++
++.doctor-card {
++  background: var(--background-light);
++  padding: 1.5rem;
++  border-radius: 10px;
++  border-left: 4px solid var(--primary-blue);
++}
++
++.doctor-card h4 {
++  color: var(--primary-blue);
++  margin-bottom: 0.5rem;
++}
++
++.diagnosis-form {
++  margin-top: 2rem;
++  padding-top: 2rem;
++  border-top: 1px solid var(--border-color);
++}
++
++.diagnoses-list {
++  margin-top: 2rem;
++}
++
++.diagnosis-item , .recipe-card{
++  background: var(--background-light);
++  padding: 1.5rem;
++  border-radius: 10px;
++  margin-bottom: 1rem;
++  border-left: 4px solid var(--primary-red);
++}
++.recipe-card-top{
++  display: flex;
++  flex-direction: row;
++  margin-bottom: 12px;
++  align-items: center;
++  & > svg{
++    margin-right: 4px;
++  }
++}
++/* Streaks Page */
++.streaks-page {
++  padding: 2rem;
++  max-width: 1200px;
++  margin: 0 auto;
++}
++
++.streaks-container {
++  display: grid;
++  grid-template-columns: 1fr 1fr;
++  gap: 2rem;
++}
++
++.streaks-section {
++  background: var(--white);
++  padding: 2rem;
++  border-radius: 10px;
++  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
++}
++
++.exercises-section {
++  background: var(--white);
++  padding: 2rem;
++  border-radius: 10px;
++  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
++}
++
++.streak-item {
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++  padding: 1rem;
++  background: var(--background-light);
++  border-radius: 5px;
++  margin-bottom: 1rem;
++}
++
++.streak-count {
++  font-size: 1.5rem;
++  font-weight: bold;
++  color: var(--primary-blue);
++}
++
++.exercise-card {
++  background: var(--background-light);
++  padding: 1.5rem;
++  border-radius: 10px;
++  margin-bottom: 1rem;
++  border-left: 4px solid var(--success-green);
++}
++
++.exercise-card h4 {
++  color: var(--success-green);
++  margin-bottom: 0.5rem;
++}
++
++.timer-display {
++  font-size: 3rem;
++  font-weight: bold;
++  text-align: center;
++  margin: 2rem 0;
++  color: var(--primary-blue);
++}
++
++
++.landing-footer {
++  background: var(--text-dark);
++  color: var(--white);
++  padding: 2rem;
++  text-align: center;
++}
++
++
++.footer-content {
++  max-width: 1200px;
++  margin: 0 auto;
++}
++
++.footer-brand {
++  display: flex;
++  align-items: center;
++  justify-content: center;
++  gap: 0.5rem;
++  margin-bottom: 1rem;
++}
++
++/* Auth styles */
++.auth-container {
++  display: flex;
++  align-items: center;
++  justify-content: center;
++  min-height: 100vh;
++  background: linear-gradient(135deg, var(--primary-blue), var(--primary-red));
++  padding: 2rem;
++}
++
++.auth-form {
++  background: var(--white);
++  padding: 3rem;
++  border-radius: 15px;
++  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
++  width: 100%;
++  max-width: 450px;
++}
++
++.auth-header {
++  text-align: center;
++  margin-bottom: 2rem;
++}
++
++.auth-icon {
++  color: var(--primary-blue);
++  margin-bottom: 1rem;
++}
++
++.auth-header h2 {
++  color: var(--text-dark);
++  margin-bottom: 0.5rem;
++}
++
++.auth-header p {
++  color: var(--text-muted);
++}
++
++.auth-footer {
++  text-align: center;
++  margin-top: 2rem;
++  padding-top: 2rem;
++  border-top: 1px solid var(--border-color);
++}
++
++.auth-footer a {
++  color: var(--primary-blue);
++  text-decoration: none;
++  font-weight: 500;
++}
++
++.auth-footer a:hover {
++  text-decoration: underline;
++}
++
++.register-form {
++  max-width: 600px;
++}
++
++.form-row {
++  display: grid;
++  grid-template-columns: 1fr 1fr;
++  gap: 1rem;
++}
++
++.password-input {
++  position: relative;
++}
++
++.password-toggle {
++  position: absolute;
++  right: 10px;
++  top: 50%;
++  transform: translateY(-50%);
++  background: none;
++  border: none;
++  color: var(--text-muted);
++  cursor: pointer;
++  padding: 5px;
++}
++
++.password-toggle:hover {
++  color: var(--primary-blue);
++}
++
++.error-message {
++  background: #fee;
++  color: #c33;
++  padding: 1rem;
++  border-radius: 5px;
++  margin-bottom: 1rem;
++  border-left: 4px solid #c33;
++}
++
++.loading {
++  text-align: center;
++  padding: 3rem;
++  color: var(--text-muted);
++  font-size: 1.2rem;
++}
++
++/* Dashboard specific styles */
++.dashboard-header {
++  text-align: center;
++  margin-bottom: 3rem;
++}
++
++.dashboard-header h1 {
++  color: var(--text-dark);
++  margin-bottom: 0.5rem;
++}
++
++.dashboard-header p {
++  color: var(--text-muted);
++}
++
++.nutrition-stats,
++.streak-stats,
++.recipe-stats,
++.journal-stats,
++.medical-stats {
++  display: flex;
++  gap: 1rem;
++  margin-bottom: 1.5rem;
++}
++
++.stat-item {
++  flex: 1;
++  text-align: center;
++  padding: 1rem;
++  background: var(--background-light);
++  border-radius: 8px;
++}
++
++.stat-label {
++  display: block;
++  font-size: 0.9rem;
++  color: var(--text-muted);
++  margin-bottom: 0.5rem;
++}
++
++.stat-value {
++  display: block;
++  font-size: 1.8rem;
++  font-weight: bold;
++  color: var(--primary-blue);
++}
++
++.goals-stats {
++  margin-bottom: 1.5rem;
++}
++
++.goal-item {
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++  padding: 0.75rem;
++  background: var(--background-light);
++  border-radius: 8px;
++  margin-bottom: 0.5rem;
++}
++
++.goal-status {
++  color: var(--success-green);
++  font-weight: bold;
++}
++
++/* Profile specific styles */
++.profile-header {
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++  margin-bottom: 2rem;
++}
++
++.profile-actions {
++  display: flex;
++  gap: 1rem;
++  margin-top: 1.5rem;
++}
++
++.info-input {
++  padding: 0.5rem;
++  border: 1px solid var(--border-color);
++  border-radius: 4px;
++  font-size: 1rem;
++}
++
++.add-contact-form {
++  background: var(--background-light);
++  padding: 1.5rem;
++  border-radius: 8px;
++  margin-top: 1rem;
++}
++
++.journal-section {
++  margin-top: 1.5rem;
++}
++
++.journal-form {
++  display: flex;
++  gap: 1rem;
++  margin-bottom: 2rem;
++}
++
++.journal-form textarea {
++  flex: 1;
++  padding: 0.75rem;
++  border: 1px solid var(--border-color);
++  border-radius: 8px;
++  resize: vertical;
++}
++
++.journal-entries {
++  display: grid;
++  gap: 1rem;
++}
++
++.journal-entry {
++  background: var(--background-light);
++  padding: 1.5rem;
++  border-radius: 8px;
++  border-left: 4px solid var(--primary-blue);
++}
++
++.journal-header {
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++  margin-bottom: 1rem;
++}
++
++.journal-date {
++  color: var(--text-muted);
++  font-size: 0.9rem;
++}
++
++.journal-type {
++  background: var(--primary-blue);
++  color: var(--white);
++  padding: 0.25rem 0.75rem;
++  border-radius: 20px;
++  font-size: 0.8rem;
++}
++
++.journal-content {
++  line-height: 1.6;
++  color: var(--text-dark);
++}
++
++.btn-icon {
++  padding: 0.5rem;
++  border-radius: 4px;
++  border: none;
++  cursor: pointer;
++  transition: background-color 0.3s;
++}
++
++.btn-danger {
++  background: var(--danger-red);
++  color: var(--white);
++}
++
++.btn-danger:hover {
++  background: #c00;
++}
++
++/* Food page specific styles */
++.food-header {
++  margin-bottom: 2rem;
++}
++
++.tab-navigation {
++  display: flex;
++  gap: 0.3rem;
++  justify-content: center;
++  margin-top: 1rem;
++}
++
++.tab-btn {
++  padding: 0.3rem 0.8rem;
++  border: none;
++  border-radius: 8px;
++  background: var(--white);
++  color: var(--text-dark);
++  cursor: pointer;
++  transition: all 0.3s;
++  display: flex;
++  align-items: center;
++  gap: 0.5rem;
++}
++
++.tab-btn.active {
++  background: var(--primary-blue);
++  color: var(--white);
++}
++
++.tab-btn:hover:not(.active) {
++  background: var(--background-light);
++}
++
++.add-food-form {
++  background: var(--background-light);
++  padding: 1.5rem;
++  border-radius: 8px;
++  margin-bottom: 2rem;
++}
++
++.add-food-form h3 {
++  margin-bottom: 1rem;
++  color: var(--text-dark);
++}
++
++.form-actions {
++  display: flex;
++  gap: 1rem;
++  margin-top: 1rem;
++}
++
++.food-entry-item {
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++  padding: 1rem;
++  background: var(--background-light);
++  border-radius: 8px;
++  margin-bottom: 1rem;
++}
++
++.food-info h4 {
++  color: var(--text-dark);
++  margin-bottom: 0.5rem;
++}
++
++.nutrition-info {
++  display: flex;
++  gap: 1rem;
++}
++
++.calorie-info {
++  color: var(--primary-blue);
++  font-weight: 500;
++}
++
++.sodium-info {
++  color: var(--warning-orange);
++  font-weight: 500;
++}
++
++.food-time {
++  color: var(--text-muted);
++  font-size: 0.9rem;
++}
++
++.recipes-header {
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++  margin-bottom: 2rem;
++}
++
++.recipes-grid {
++  display: grid;
++  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
++  gap: 2rem;
++}
++
++.recipe-card {
++  background: var(--white);
++  border-radius: 12px;
++  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
++  overflow: hidden;
++  transition: transform 0.3s;
++}
++
++.recipe-card:hover {
++  transform: translateY(-5px);
++}
++
++.recipe-header {
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++  padding: 1.5rem;
++  border-bottom: 1px solid var(--border-color);
++}
++
++.recipe-header h4 {
++  color: var(--text-dark);
++  margin: 0;
++}
++.btn-icon {
++  padding: 0.5rem;
++  border-radius: 4px;
++  border: none;
++  cursor: pointer;
++  transition: background-color 0.3s;
++}
++
++.btn-danger {
++  background: var(--danger-red);
++  color: var(--white);
++}
++
++.btn-danger:hover {
++  background: #c00;
++}
++
++/* Food page specific styles */
++.food-header {
++  margin-bottom: 2rem;
++}
++
++.tab-navigation {
++  display: flex;
++  gap: 1rem;
++  justify-content: center;
++  margin-top: 1rem;
++}
++
++.tab-btn {
++  padding: 0.75rem 1.5rem;
++  border: none;
++  border-radius: 25px;
++  background: var(--white);
++  color: var(--text-dark);
++  cursor: pointer;
++  transition: all 0.3s;
++  display: flex;
++  align-items: center;
++  gap: 0.5rem;
++}
++
++.tab-btn.active {
++  background: var(--primary-blue);
++  color: var(--white);
++}
++
++.tab-btn:hover:not(.active) {
++  background: var(--background-light);
++}
++
++.add-food-form {
++  background: var(--background-light);
++  padding: 1.5rem;
++  border-radius: 8px;
++  margin-bottom: 2rem;
++}
++
++.add-food-form h3 {
++  margin-bottom: 1rem;
++  color: var(--text-dark);
++}
++
++.form-actions {
++  display: flex;
++  gap: 1rem;
++  margin-top: 1rem;
++}
++
++.food-entry-item {
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++  padding: 1rem;
++  background: var(--background-light);
++  border-radius: 8px;
++  margin-bottom: 1rem;
++}
++
++.food-info h4 {
++  color: var(--text-dark);
++  margin-bottom: 0.5rem;
++}
++
++.nutrition-info {
++  display: flex;
++  gap: 1rem;
++}
++
++.calorie-info {
++  color: var(--primary-blue);
++  font-weight: 500;
++}
++
++.sodium-info {
++  color: var(--warning-orange);
++  font-weight: 500;
++}
++
++.food-time {
++  color: var(--text-muted);
++  font-size: 0.9rem;
++}
++
++.recipes-header {
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++  margin-bottom: 2rem;
++}
++
++.recipes-grid {
++  display: grid;
++  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
++  gap: 2rem;
++}
++
++.recipe-card {
++  background: var(--white);
++  border-radius: 12px;
++  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
++  overflow: hidden;
++  transition: transform 0.3s;
++}
++
++.recipe-card:hover {
++  transform: translateY(-5px);
++}
++
++.recipe-header {
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++  padding: 1.5rem;
++  border-bottom: 1px solid var(--border-color);
++}
++
++.recipe-header h4 {
++  color: var(--text-dark);
++  margin: 0;
++}
++
++.btn-save {
++  background: none;
++  border: none;
++  color: var(--text-muted);
++  cursor: pointer;
++  transition: color 0.3s;
++}
++
++.btn-saved {
++  background: none;
++  border: none;
++  color: var(--danger-red);
++  cursor: pointer;
++}
++
++
++.btn-save:hover {
++  color: var(--danger-red);
++}
++
++.recipe-nutrition {
++  display: flex;
++  gap: 1rem;
++  padding: 1rem 1.5rem;
++  background: var(--background-light);
++}
++
++.recipe-content {
++  padding: 1.5rem;
++}
++
++.ingredients,
++.instructions {
++  margin-bottom: 1.5rem;
++}
++
++.ingredients h5,
++.instructions h5 {
++  color: var(--primary-blue);
++  margin-bottom: 0.5rem;
++}
++
++.ingredients p,
++.instructions p {
++  color: var(--text-dark);
++  line-height: 1.6;
++}
++
++/* Doctors page specific styles */
++.doctors-header {
++  margin-bottom: 2rem;
++}
++
++.diagnoses-header {
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++  margin-bottom: 2rem;
++}
++
++.diagnosis-form {
++  background: var(--background-light);
++  padding: 2rem;
++  border-radius: 12px;
++  margin-bottom: 2rem;
++}
++
++.diagnosis-form h3 {
++  color: var(--text-dark);
++  margin-bottom: 1.5rem;
++}
++
++.diagnosis-form .form-group {
++  margin-bottom: 1.5rem;
++}
++
++.diagnosis-form label {
++  display: block;
++  color: var(--text-dark);
++  font-weight: 500;
++  margin-bottom: 0.5rem;
++}
++
++.diagnosis-form select,
++.diagnosis-form textarea,
++.diagnosis-form input {
++  width: 100%;
++  padding: 0.75rem;
++  border: 1px solid var(--border-color);
++  border-radius: 8px;
++  font-size: 1rem;
++}
++
++.diagnosis-form textarea {
++  resize: vertical;
++  min-height: 100px;
++}
++
++.no-diagnoses {
++  text-align: center;
++  padding: 3rem;
++  color: var(--text-muted);
++}
++
++.no-diagnoses h3 {
++  color: var(--text-dark);
++  margin: 1rem 0;
++}
++
++.diagnoses-list {
++  display: grid;
++  gap: 2rem;
++}
++
++.diagnosis-item {
++  background: var(--white);
++  border-radius: 12px;
++  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
++  overflow: hidden;
++}
++
++.diagnosis-header {
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++  padding: 1.5rem;
++  background: var(--background-light);
++  border-bottom: 1px solid var(--border-color);
++}
++
++.doctor-info h4 {
++  color: var(--text-dark);
++  margin-bottom: 0.25rem;
++}
++
++.doctor-info p {
++  color: var(--text-muted);
++  font-size: 0.9rem;
++}
++
++.diagnosis-date {
++  display: flex;
++  align-items: center;
++  gap: 0.5rem;
++  color: var(--text-muted);
++}
++
++.diagnosis-content {
++  padding: 1.5rem;
++}
++
++.diagnosis-section {
++  margin-bottom: 1.5rem;
++}
++
++.diagnosis-section:last-child {
++  margin-bottom: 0;
++}
++
++.diagnosis-section h5 {
++  color: var(--primary-blue);
++  margin-bottom: 0.5rem;
++}
++
++.diagnosis-section p {
++  color: var(--text-dark);
++  line-height: 1.6;
++}
++
++.doctors-list {
++  display: grid;
++  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
++  gap: 2rem;
++}
++
++.doctor-card {
++  background: var(--white);
++  border-radius: 12px;
++  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
++  padding: 2rem;
++  transition: transform 0.3s;
++}
++
++.doctor-card:hover {
++  transform: translateY(-5px);
++}
++
++.doctor-header {
++  display: flex;
++  align-items: center;
++  gap: 1rem;
++  margin-bottom: 1.5rem;
++}
++
++.doctor-avatar {
++  width: 60px;
++  height: 60px;
++  background: var(--primary-blue);
++  color: var(--white);
++  border-radius: 50%;
++  display: flex;
++  align-items: center;
++  justify-content: center;
++}
++
++.doctor-info h4 {
++  color: var(--text-dark);
++  margin-bottom: 0.25rem;
++}
++
++.specialization {
++  color: var(--primary-blue);
++  font-weight: 500;
++}
++
++.doctor-contact {
++  margin-bottom: 1.5rem;
++}
++
++.doctor-contact p {
++  margin-bottom: 0.5rem;
++  color: var(--text-dark);
++}
++
++.doctor-contact strong {
++  color: var(--text-dark);
++}
++
++.doctor-actions {
++  display: flex;
++  gap: 1rem;
++}
++
++.btn-sm {
++  padding: 0.5rem 1rem;
++  font-size: 0.9rem;
++}
++
++/* Streaks page specific styles */
++.streaks-header {
++  text-align: center;
++  margin-bottom: 3rem;
++}
++
++.streaks-header h1 {
++  color: var(--text-dark);
++  margin-bottom: 0.5rem;
++}
++
++.streaks-header p {
++  color: var(--text-muted);
++}
++
++.streaks-container {
++  display: grid;
++  grid-template-columns: 1fr 1fr;
++  gap: 2rem;
++  margin-bottom: 3rem;
++}
++
++.streaks-section,
++.exercises-section {
++  background: var(--white);
++  border-radius: 12px;
++  padding: 2rem;
++  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
++}
++
++.streaks-section h2,
++.exercises-section h2 {
++  color: var(--text-dark);
++  margin-bottom: 1.5rem;
++  display: flex;
++  align-items: center;
++  gap: 0.5rem;
++}
++
++.no-streaks {
++  text-align: center;
++  padding: 2rem;
++  color: var(--text-muted);
++}
++
++.no-streaks h3 {
++  color: var(--text-dark);
++  margin: 1rem 0;
++}
++
++.streaks-list {
++  display: grid;
++  gap: 1rem;
++}
++
++.streak-item {
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++  padding: 1rem;
++  background: var(--background-light);
++  border-radius: 8px;
++  border-left: 4px solid var(--primary-blue);
++}
++
++.streak-info h3 {
++  color: var(--text-dark);
++  margin-bottom: 0.25rem;
++}
++
++.streak-info p {
++  color: var(--text-muted);
++  font-size: 0.9rem;
++}
++
++.streak-count {
++  text-align: center;
++}
++
++.streak-count .count {
++  display: block;
++  font-size: 2rem;
++  font-weight: bold;
++  color: var(--primary-blue);
++}
++
++.streak-count .label {
++  display: block;
++  font-size: 0.9rem;
++  color: var(--text-muted);
++}
++
++.exercise-timer {
++  text-align: center;
++}
++
++.timer-header h3 {
++  color: var(--text-dark);
++  margin-bottom: 0.5rem;
++}
++
++.timer-header p {
++  color: var(--text-muted);
++  margin-bottom: 2rem;
++}
++
++.timer-display {
++  font-size: 4rem;
++  font-weight: bold;
++  color: var(--primary-blue);
++  margin-bottom: 2rem;
++  font-family: 'Courier New', monospace;
++}
++
++.timer-instructions {
++  background: var(--background-light);
++  padding: 1.5rem;
++  border-radius: 8px;
++  margin-bottom: 2rem;
++}
++
++.timer-instructions p {
++  color: var(--text-dark);
++  line-height: 1.6;
++}
++
++.timer-controls {
++  display: flex;
++  gap: 1rem;
++  justify-content: center;
++}
++
++.exercises-list {
++  display: grid;
++  gap: 1.5rem;
++}
++
++.exercise-card {
++  background: var(--background-light);
++  border-radius: 8px;
++  padding: 1.5rem;
++  transition: transform 0.3s;
++}
++
++.exercise-card:hover {
++  transform: translateY(-2px);
++}
++
++.exercise-header {
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++  margin-bottom: 1rem;
++}
++
++.exercise-header h3 {
++  color: var(--text-dark);
++  margin: 0;
++}
++
++.duration {
++  display: flex;
++  align-items: center;
++  gap: 0.25rem;
++  color: var(--text-muted);
++}
++
++.exercise-description {
++  color: var(--text-dark);
++  margin-bottom: 1rem;
++}
++
++.exercise-instructions {
++  background: var(--white);
++  padding: 1rem;
++  border-radius: 6px;
++  margin-bottom: 1.5rem;
++}
++
++.exercise-instructions p {
++  color: var(--text-muted);
++  font-size: 0.9rem;
++}
++
++.fun-activities {
++  background: var(--white);
++  border-radius: 12px;
++  padding: 2rem;
++  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
++}
++
++
++.fun-activities h2 {
++  color: var(--text-dark);
++  margin-bottom: 2rem;
++  text-align: center;
++}
++
++.activities-grid {
++  display: grid;
++  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
++  gap: 2rem;
++}
++
++.activity-card {
++  text-align: center;
++  padding: 2rem;
++  background: var(--background-light);
++  border-radius: 12px;
++  transition: transform 0.3s;
++}
++
++.activity-card:hover {
++  transform: translateY(-5px);
++}
++
++.activity-icon {
++  font-size: 3rem;
++  margin-bottom: 1rem;
++}
++
++.activity-card h3 {
++  color: var(--text-dark);
++  margin-bottom: 1rem;
++}
++
++.activity-card p {
++  color: var(--text-muted);
++  margin-bottom: 1.5rem;
++}
++
++
++@media only screen and (min-width: 500px){
++    .grid-sm{
++        display: grid;
++        grid-template-columns: 1fr 1fr;
++    }
++    
++}
++@media only screen and (min-width: 9400px){
++    .grid-md{
++        display: grid;
++        grid-template-columns: 1fr 1fr;
++    }
++    
++}
++@media only screen and (min-width: 1040px){
++    .grid-xl{
++        display: grid;
++        grid-template-columns: 1fr 1fr;
++    }
++    
++}
++@media only screen and (max-width: 940px){
++  .streaks-container {
++    grid-template-columns: 1fr;
++  }
++}@media (max-width: 768px) {
++  .nav-links {
++    display: none;
++  }
++  
++  .hero {
++    padding: 6rem 1rem;
++  }
++  
++  .hero h1 {
++    font-size: 2rem;
++  }
++  
++  .hero-buttons {
++    flex-direction: column;
++    align-items: center;
++  }
++  
++  .steps-grid {
++    grid-template-columns: 1fr;
++  }
++  
++  .features-grid {
++    grid-template-columns: 1fr;
++  }
++  
++  .stats-grid {
++    grid-template-columns: 1fr;
++  }
++  
++  .form-row {
++    grid-template-columns: 1fr;
++  }
++  
++  .dashboard-grid {
++    grid-template-columns: 1fr;
++  }
++  
++  .quick-actions {
++    grid-template-columns: repeat(2, 1fr);
++  }
++  
++  .streaks-container {
++    grid-template-columns: 1fr;
++  }
++  
++  .recipes-grid {
++    grid-template-columns: 1fr;
++  }
++  
++  .doctors-list {
++    grid-template-columns: 1fr;
++  }
++  
++  .activities-grid {
++    grid-template-columns: repeat(2, 1fr);
++  }
++  
++  .nutrition-stats,
++  .streak-stats,
++  .recipe-stats,
++  .journal-stats,
++  .medical-stats {
++    flex-direction: column;
++  }
++  
++  .food-entry-item {
++    flex-direction: column;
++    align-items: flex-start;
++    gap: 1rem;
++  }
++  
++  .nutrition-info {
++    flex-direction: column;
++    gap: 0.25rem;
++  }
++  
++  .diagnosis-header {
++    flex-direction: column;
++    align-items: flex-start;
++    gap: 1rem;
++  }
++  
++  .doctor-header {
++    flex-direction: column;
++    text-align: center;
++  }
++  
++  .timer-controls {
++    flex-direction: column;
++  }
++}
++
++@media (max-width: 480px) {
++  .hero h1 {
++    font-size: 1.5rem;
++  }
++  
++  .hero p {
++    font-size: 1rem;
++  }
++  
++  .cta-button,
++  .secondary-button {
++    padding: 0.75rem 1.5rem;
++    font-size: 0.9rem;
++  }
++  
++  .auth-form {
++    padding: 2rem;
++  }
++  
++  .register-form {
++    max-width: 100%;
++  }
++  
++  .activities-grid {
++    grid-template-columns: 1fr;
++  }
++  
++  .quick-actions {
++    grid-template-columns: 1fr;
++  }
++  
++  .form-actions {
++    flex-direction: column;
++  }
++  
++  .timer-display {
++    font-size: 3rem;
++  }
++  
++  .doctor-actions {
++    flex-direction: column;
++  }
++  
++  .diagnoses-header {
++    flex-direction: column;
++    gap: 1rem;
++    align-items: flex-start;
++  }
++  
++  .recipes-header {
++    flex-direction: column;
++    gap: 1rem;
++    align-items: flex-start;
++  }
++  
++  .profile-header {
++    flex-direction: column;
++    gap: 1rem;
++    align-items: flex-start;
++  }
++  
++  .profile-actions {
++    flex-direction: column;
++  }
++  
++  .journal-form {
++    flex-direction: column;
++  }
++}
++
++/* Animation styles */
++@keyframes fadeIn {
++  from {
++    opacity: 0;
++    transform: translateY(20px);
++  }
++  to {
++    opacity: 1;
++    transform: translateY(0);
++  }
++}
++
++.fade-in {
++  animation: fadeIn 0.5s ease-out;
++}
++
++@keyframes pulse {
++  0% {
++    transform: scale(1);
++  }
++  50% {
++    transform: scale(1.05);
++  }
++  100% {
++    transform: scale(1);
++  }
++}
++
++.pulse {
++  animation: pulse 2s infinite;
++}
++
++/* Custom scrollbar */
++::-webkit-scrollbar {
++  width: 8px;
++}
++
++::-webkit-scrollbar-track {
++  background: var(--background-light);
++}
++
++::-webkit-scrollbar-thumb {
++  background: var(--primary-blue);
++  border-radius: 4px;
++}
++
++::-webkit-scrollbar-thumb:hover {
++  background: var(--primary-red);
++}
++
++/* Focus styles for accessibility */
++
++input:focus,
++textarea:focus,
++select:focus {
++  outline: 2px solid var(--primary-blue);
++  outline-offset: 2px;
++}
++
++/* Print styles */
++@media print {
++  .navbar,
++  .tab-navigation,
++  .form-actions,
++  .timer-controls {
++    display: none;
++  }
++  
++  .dashboard-container,
++  .profile-page,
++  .food-page,
++  .doctors-page,
++  .streaks-page {
++    padding: 0;
++    background: white;
++  }
++  
++  .dashboard-card,
++  .profile-section,
++  .food-tracker,
++  .doctors-section,
++  .streaks-container {
++    box-shadow: none;
++    border: 1px solid #ccc;
++    margin-bottom: 1rem;
++    break-inside: avoid;
++  }
++}
++
+diff --git a/frontend/src/pages/FoodPage.tsx b/frontend/src/pages/FoodPage.tsx
+index aa052f0..cf1b208 100644
+--- a/frontend/src/pages/FoodPage.tsx
++++ b/frontend/src/pages/FoodPage.tsx
+@@ -1,8 +1,17 @@
+-import React, { useState, useEffect } from 'react';
+-import {  Plus, Heart, RefreshCw, Flame, Users, BookOpen, X, Check, ChefHat } from 'lucide-react';
++import React, { useEffect, useState } from 'react';
++import {
++  Plus,
++  Heart,
++  Flame,
++  Users,
++  X,
++  ChefHat
++} from 'lucide-react';
+ import { base_host } from '../global';
+ import { useAuth } from '../contexts/AuthContext';
+-//import { Link } from 'react-router-dom';
++import axios from 'axios';
++
++/* ================= TYPES ================= */
+ 
+ interface FoodEntry {
+   id: number;
+@@ -21,497 +30,376 @@ interface Recipe {
+   instructions: string;
+   calories: number;
+   sodium: number;
+-  is_saved:boolean;
+-  is_heart_healthy: boolean;
+   calories_per_serving: number;
+   sodium_per_serving: number;
++  is_saved: boolean;
++  is_heart_healthy: boolean;
+   formatted_date: string;
+ }
+ 
+-interface NewFood {
+-  food_name: string;
+-  calories: string;
+-  sodium: string;
+-  entry_date: string;
+-}
++/* ================= COMPONENT ================= */
++
++const FoodPage: React.FC = () => {
++  const { user } = useAuth();
++  const userId = user?.id;
+ 
++  const [activeTab, setActiveTab] =
++    useState<'diary' | 'recipes' | 'discover'>('diary');
+ 
+-const FoodPage: React.FC = ()  => {
+-  const { user }= useAuth();
+-  const [activeTab, setActiveTab] = useState<'diary' | 'recipes' | 'discover' >('diary');
+-  const [foodEntries, setFoodEntries] = useState<FoodEntry[]>([]);//useState<'tracker' | 'recipes'>('tracker');
++  const [foodEntries, setFoodEntries] = useState<FoodEntry[]>([]);
++  const [discoverRecipes, setDiscoverRecipes] = useState<boolean>(false);
+   const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([]);
+-  const [randomRecipe, setRandomRecipe] = useState<Recipe | null >(null);
++  //const [savedRecipes, setSavedRecipes] = useState<number[]>([]);
++  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
++  const [recipes, setRecipes] = useState<Recipe[]>([]);
+   const [showAddFood, setShowAddFood] = useState(false);
+-  const [searchTerm, setSearchTerm] = useState('');
+-  const [newFood, setNewFood] = useState<NewFood>({
++  const [savedRecipe] = useState<number[]>([]);
++  const [foodText, setFoodText] = useState('');
++  const [nutritionPreview, setNutritionPreview] = useState<any>(null);
++  const [loadingNutrition, setLoadingNutrition] = useState(false);
++  const [addingFood, setAddingFood] = useState(false);
++  const [loading, setLoading] = useState(true);
++  const [newFoodEntry, setNewFoodEntry] = useState({
+     food_name: '',
+     calories: '',
+     sodium: '',
+     entry_date: new Date().toISOString().split('T')[0]
+   });
+-
+-  const userId = user?.id; // Mock user ID
+- 
++  /* ================= FETCH ================= */
+ 
+   useEffect(() => {
+-    if(user)
++    if (!userId) return;
+     fetchFoodEntries();
+     fetchSavedRecipes();
+-    fetchRandomRecipe();
+-  }, [user]);
++    fetchDiscoverRecipes();
++  }, [userId]);
+ 
++  
+   const fetchFoodEntries = async () => {
+-    try {
+-      const response = await fetch(`${base_host}api/food.php?user_id=${userId}`);
+-      const data = await response.json();
+-      setFoodEntries(data);
+-    } catch (error) {
+-      console.error('Error fetching food entries:', error);
+-    }
++      const today = new Date().toISOString().split('T')[0];
++    
++    const res = await fetch(`${base_host}api/food.php?user_id=${userId}&date=${today}`
++    );
++    const data = await res.json()
++    setFoodEntries(data.entries || []);
+   };
+ 
+   const fetchSavedRecipes = async () => {
+-    try {
+-      const response = await fetch(`${base_host}api/recipes.php?user_id=${userId}`);
+-      const data = await response.json();
+-      setSavedRecipes(data);
+-    } catch (error) {
+-      console.error('Error fetching saved recipes:', error);
+-    }
++    const res = await fetch(`${base_host}api/recipes.php?user_id=${userId}`);
++    setSavedRecipes(await res.json());
+   };
+ 
+-  const fetchRandomRecipe = async () => {
+-    try {
+-      const response = await fetch(`${base_host}api/food.php?user_id=${userId}&action=random`);
+-      const data = await response.json();
+-      setRandomRecipe(data);
+-    } catch (error) {
+-      console.error('Error fetching random recipe:', error);
+-    }
++  const fetchDiscoverRecipes = async () => {
++    const res = await fetch(`${base_host}api/recipes.php?random=1`);
++    const response= await res.json();
++     if(response){
++    setRecipes([response, ...recipes.slice(0, -1)]);
++    setDiscoverRecipes(true);
++     }
++    //setDiscoverRecipes(await res.json());
+   };
+ 
+-  const handleAddFood = async () => {
+-    if (newFood.food_name && newFood.calories && newFood.sodium) {
+-      try {
+-        const response = await fetch(`${base_host}api/food.php`, {
+-          method: 'POST',
+-          headers: {
+-            'Content-Type': 'application/json',
+-          },
+-          body: JSON.stringify({
+-            user_id: userId,
+-            ...newFood,
+-            calories: parseInt(newFood.calories),
+-            sodium: parseInt(newFood.sodium)
+-          })
+-        });
+-
+-        if (response.ok) {
+-          setNewFood({
+-            food_name: '',
+-            calories: '',
+-            sodium: '',
+-            entry_date: new Date().toISOString().split('T')[0]
+-          });
+-          setShowAddFood(false);
+-          fetchFoodEntries();
+-        }
+-      } catch (error) {
+-        console.error('Error adding food entry:', error);
+-      }
+-    }
+-  };
++  /* ================= NUTRITION API ================= */
++/*
++  const analyzeFood = async () => {
++  const res = await fetch(
++    `https://api.spoonacular.com/recipes/guessNutrition?title=${encodeURIComponent(foodText)}&apiKey=${import.meta.env.VITE_SPOONACULAR_KEY}`
++  );
++
++  const data = await res.json();
+ 
+-  const saveRecipe = async (recipeId:any) => {
+-    try {
+-      const response = await fetch(`${base_host}api/food.php?action=save_recipe`, {
++  setNutritionPreview({
++    calories: data.calories?.value || 0,
++    sodium: data.sodium?.value || 0
++  });
++};
++
++  const analyzeFoodd = async () => {
++    if (!foodText) return;
++
++    setLoadingNutrition(true);
++
++    const res = await fetch(
++      'https://trackapi.nutritionix.com/v2/natural/nutrients',
++      {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'application/json',
++          'x-app-id': import.meta.env.VITE_NUTRITION_APP_ID,
++          'x-app-key': import.meta.env.VITE_NUTRITION_APP_KEY
+         },
+-        body: JSON.stringify({
+-          user_id: userId,
+-          recipe_id: recipeId
+-        })
+-      });
+-
+-      if (response.ok) {
+-        fetchSavedRecipes();
+-        if (randomRecipe && randomRecipe.id === recipeId) {
+-          setRandomRecipe({ ...randomRecipe, is_saved: true });
+-        }
++        body: JSON.stringify({ query: foodText })
+       }
+-    } catch (error) {
+-      console.error('Error saving recipe:', error);
+-    }
+-  };
++    );
+ 
+-  const deleteFoodEntry = async (entryId:any) => {
+-    try {
+-      const response = await fetch(`${base_host}api/food.php?id=${entryId}`, {
+-        method: 'DELETE'
+-      });
++    const data = await res.json();
+ 
+-      if (response.ok) {
+-        fetchFoodEntries();
+-      }
+-    } catch (error) {
+-      console.error('Error deleting food entry:', error);
+-    }
+-  };
++    const totalCalories = data.foods.reduce(
++      (sum: number, f: any) => sum + f.nf_calories,
++      0
++    );
+ 
+-  const calculateDailyTotals = () => {
+-    const today = new Date().toISOString().split('T')[0];
+-    const todayEntries = foodEntries.filter(entry => entry.entry_date === today);
+-    
+-    return todayEntries.reduce((totals, entry) => {
+-      totals.calories += entry.calories;
+-      totals.sodium += entry.sodium;
+-      return totals;
+-    }, { calories: 0, sodium: 0 });
++    const totalSodium = data.foods.reduce(
++      (sum: number, f: any) => sum + f.nf_sodium,
++      0
++    );
++
++    setNutritionPreview({
++      foods: data.foods,
++      calories: Math.round(totalCalories),
++      sodium: Math.round(totalSodium)
++    });
++
++    setLoadingNutrition(false);
+   };
++*/
++const analyzeFood = async () => {
++  if (!foodText) return;
++
++  setLoadingNutrition(true);
++
++  const res = await fetch(
++    `https://api.spoonacular.com/recipes/guessNutrition?title=${encodeURIComponent(foodText)}&apiKey=${import.meta.env.VITE_SPOONACULAR_KEY}`
++  );
++
++  const data = await res.json();
+ 
+-  const dailyTotals = calculateDailyTotals();
++  setNutritionPreview({
++    foods: [data], // Wrap in array to match Nutritionix structure
++    calories: Math.round(data.calories?.value || 0),
++    sodium: Math.round(data.sodium?.value || 0)
++  });
++
++  setLoadingNutrition(false);
++};
+ 
++  const saveFoodEntry = async () => {
++    if (!nutritionPreview) return;
++
++    await fetch(`${base_host}api/food.php?user_id=${userId}`, {
++      method: 'POST',
++      headers: { 'Content-Type': 'application/json' },
++      body: JSON.stringify({
++        user_id: userId,
++        food_name: foodText,
++        calories: nutritionPreview.calories,
++        sodium: nutritionPreview.sodium,
++        entry_date: new Date().toISOString().split('T')[0]
++      })
++    });
++
++    setShowAddFood(false);
++    setFoodText('');
++    setNutritionPreview(null);
++    fetchFoodEntries();
++  };
++
++  /* ================= CALCULATIONS ================= */
++
++  const today = new Date().toISOString().split('T')[0];
++  const dailyTotals = foodEntries
++    .filter(e => e.entry_date === today)
++    .reduce(
++      (t, e) => {
++        t.calories += e.calories;
++        t.sodium += e.sodium;
++        return t;
++      },
++      { calories: 0, sodium: 0 }
++    );
++
++  /* ================= UI ================= */
++
++ /* if (loading) {
++    return (
++      <div className="food-page">
++        <div className="loading">Loading food data...</div>
++      </div>
++    );
++  }*/
+   return (
+     <div className="food-page">
+       <div className="container">
++
+         <div className="page-header">
+           <h1>Nutrition & Diet</h1>
+-          <p>Track your meals and discover healthy recipes</p>
++          <p>Enter what you ate — we calculate everything for you</p>
+         </div>
+ 
+-        {/* Daily Summary */}
++        {/* SUMMARY */}
+         <div className="daily-summary">
+-          <div className="summary-card">
+-            <div className="summary-icon">
+-              <Flame className="w-6 h-6" />
+-            </div>
+-            <div className="summary-content">
+-              <div className="summary-value">{dailyTotals.calories}</div>
+-              <div className="summary-label">Calories Today</div>
+-            </div>
+-          </div>
+-          <div className="summary-card">
+-            <div className="summary-icon">
+-              <Heart className="w-6 h-6" />
+-            </div>
+-            <div className="summary-content">
+-              <div className="summary-value">{dailyTotals.sodium}mg</div>
+-              <div className="summary-label">Sodium Today</div>
+-            </div>
+-          </div>
+-          <div className="summary-card">
+-            <div className="summary-icon">
+-              <Users className="w-6 h-6" />
+-            </div>
+-            <div className="summary-content">
+-              <div className="summary-value">{foodEntries.filter(e => e.entry_date === new Date().toISOString().split('T')[0]).length}</div>
+-              <div className="summary-label">Meals Today</div>
+-            </div>
+-          </div>
++          <Summary icon={<Flame />} value={dailyTotals.calories} label="Calories Today" />
++          <Summary icon={<Heart />} value={`${dailyTotals.sodium}mg`} label="Sodium Today" />
++          <Summary
++            icon={<Users />}
++            value={foodEntries.filter(e => e.entry_date === today).length}
++            label="Meals Today"
++          />
+         </div>
+ 
+-        {/* Tabs */}
+-        <div className="tabs">
+-          <button 
+-            className={`tab ${activeTab === 'diary' ? 'active' : ''}`}
+-            onClick={() => setActiveTab('diary')}
+-          >
+-            Food Diary
+-          </button>
+-          <button 
+-            className={`tab ${activeTab === 'recipes' ? 'active' : ''}`}
+-            onClick={() => setActiveTab('recipes')}
+-          >
+-            Saved Recipes
+-          </button>
+-          <button 
+-            className={`tab ${activeTab === 'discover' ? 'active' : ''}`}
+-            onClick={() => setActiveTab('discover')}
+-          >
+-            Discover
+-          </button>
++        {/* TABS */}
++        <div className="tab-navigation">
++          {['diary', 'recipes', 'discover'].map(tab => (
++            <button
++              key={tab}
++              className={`tab-btn ${activeTab === tab ? 'active' : ''}`}
++              onClick={() => setActiveTab(tab as any)}
++            >
++              {tab === 'diary' && 'Food Diary'}
++              {tab === 'recipes' && 'Saved Recipes'}
++              {tab === 'discover' && 'Discover'}
++            </button>
++          ))}
+         </div>
+ 
+-        {/* Food Diary Tab */}
++        {/* DIARY */}
+         {activeTab === 'diary' && (
+           <div className="tab-content">
+-            <div className="diary-header">
+-              <h3>Your Food Diary</h3>
+-              <button 
+-                className="btn btn-primary"
+-                onClick={() => setShowAddFood(true)}
+-              >
+-                <Plus className="w-4 h-4" />
+-                Add Food
+-              </button>
+-            </div>
+-
+-            <div className="food-entries">
+-              {foodEntries.length === 0 ? (
+-                <div className="empty-state">
+-                  <BookOpen className="w-12 h-12" />
+-                  <h3>No food entries yet</h3>
+-                  <p>Start tracking your meals to see your nutrition data</p>
+-                </div>
+-              ) : (
+-                foodEntries.map((entry) => (
+-                  <div key={entry.id} className="food-entry">
+-                    <div className="entry-info">
+-                      <h4>{entry.food_name}</h4>
+-                      <div className="entry-meta">
+-                        <span className="entry-date">{entry.formatted_date}</span>
+-                        {entry.is_today && <span className="badge badge-primary">Today</span>}
+-                      </div>
+-                    </div>
+-                    <div className="entry-nutrition">
+-                      <span className="nutrition-item">
+-                        <Flame className="w-4 h-4" />
+-                        {entry.calories} cal
+-                      </span>
+-                      <span className="nutrition-item">
+-                        <Heart className="w-4 h-4" />
+-                        {entry.sodium}mg
+-                      </span>
+-                    </div>
+-                    <button 
+-                      className="btn btn-icon btn-danger"
+-                      onClick={() => deleteFoodEntry(entry.id)}
+-                    >
+-                      <X className="w-4 h-4" />
+-                    </button>
+-                  </div>
+-                ))
+-              )}
+-            </div>
++            <button className="btn btn-primary" onClick={() => setShowAddFood(true)}>
++              <Plus /> Add Food
++            </button>
++           {foodEntries.length === 0 ? (
++              <p>No food entries for today. Start tracking your meals!</p>
++            ) : (
++            foodEntries.map(e => (
++              <div key={e.id} className="diagnosis-item">
++                <h4>{e.food_name}</h4>
++                <span>{e.calories} cal • {e.sodium}mg</span>
++              </div>
++            ))
++          )}
+           </div>
+         )}
+-        {/* Saved Recipes Tab */}
++
++        {/* RECIPES */}
+         {activeTab === 'recipes' && (
+-          <div className="tab-content">
+-            <div className="recipes-header">
+-              <h3>Saved Recipes</h3>
+-              <div className="recipes-count">
+-                {savedRecipes.length} recipes saved
+-              </div>
+-            </div>
+-
+-            <div className="recipes-grid">
+-              {savedRecipes.length === 0 ? (
+-                <div className="empty-state">
+-                  <Heart className="w-12 h-12" />
+-                  <h3>No saved recipes yet</h3>
+-                  <p>Discover and save heart-healthy recipes for your diet</p>
+-                </div>
+-              ) : (
+-                savedRecipes.map((recipe) => (
+-                  <div key={recipe.id} className="recipe-card">
+-                    <div className="recipe-image">
+-                      <div className="recipe-placeholder">
+-                        <ChefHat className="w-8 h-8" />
+-                      </div>
+-                      {recipe.is_heart_healthy && (
+-                        <div className="recipe-badge">Heart Healthy</div>
+-                      )}
+-                    </div>
+-                    <div className="recipe-content">
+-                      <h4>{recipe.title}</h4>
+-                      <div className="recipe-nutrition">
+-                        <span className="nutrition-item">
+-                          <Flame className="w-4 h-4" />
+-                          {recipe.calories_per_serving} cal/serving
+-                        </span>
+-                        <span className="nutrition-item">
+-                          <Heart className="w-4 h-4" />
+-                          {recipe.sodium_per_serving}mg/serving
+-                        </span>
+-                      </div>
+-                      <div className="recipe-date">
+-                        Saved {recipe.formatted_date}
+-                      </div>
+-                    </div>
+-                  </div>
+-                ))
+-              )}
+-            </div>
++          <div className="recipes-grid">
++            {savedRecipes.map(r => (
++              <RecipeCard key={r.id} recipe={r} onClick={() => setSelectedRecipe(r)} />
++            ))}
+           </div>
+         )}
+ 
+-        {/* Discover Tab */}
++        {/* DISCOVER */}
+         {activeTab === 'discover' && (
+-          <div className="tab-content">
+-            <div className="discover-header">
+-              <h3>Discover New Recipes</h3>
+-              <button 
+-                className="btn btn-secondary"
+-                onClick={fetchRandomRecipe}
+-              >
+-                <RefreshCw className="w-4 h-4" />
+-                Get New Recipe
+-              </button>
+-            </div>
+-
+-                      </div>
++          <div className="recipes-grid">
++          
++            {recipes ?
++
++            recipes.map(r => (
++              <RecipeCard key={r.id} recipe={r} onClick={() => setSelectedRecipe(r)} />
++            )) :
++            (
++         <p>No recipes found !</p>
++           
++            )}
++          </div>
+         )}
+       </div>
+ 
+-      {/* Add Food Modal */}
++      {/* ADD FOOD MODAL */}
+       {showAddFood && (
+-        <div className="modal">
+-          <div className="modal-content">
+-            <div className="modal-header">
+-              <h3>Add Food Entry</h3>
+-              <button 
+-                className="btn btn-icon"
+-                onClick={() => setShowAddFood(false)}
+-              >
+-                <X className="w-4 h-4" />
+-              </button>
+-            </div>
+-            <div className="modal-body">
+-              <div className="form-group">
+-                <label>Food Name</label>
+-                <input
+-                  type="text"
+-                  className="form-input"
+-                  value={newFood.food_name}
+-                  onChange={(e) => setNewFood({...newFood, food_name: e.target.value})}
+-                  placeholder="e.g., Grilled Chicken Salad"
+-                />
+-              </div>
+-              <div className="form-group">
+-                <label>Calories</label>
+-                <input
+-                  type="number"
+-                  className="form-input"
+-                  value={newFood.calories}
+-                  onChange={(e) => setNewFood({...newFood, calories: e.target.value})}
+-                  placeholder="e.g., 350"
+-                />
+-              </div>
+-              <div className="form-group">
+-                <label>Sodium (mg)</label>
+-                <input
+-                  type="number"
+-                  className="form-input"
+-                  value={newFood.sodium}
+-                  onChange={(e) => setNewFood({...newFood, sodium: e.target.value})}
+-                  placeholder="e.g., 450"
+-                />
+-              </div>
+-              <div className="form-group">
+-                <label>Date</label>
+-                <input
+-                  type="date"
+-                  className="form-input"
+-                  value={newFood.entry_date}
+-                  onChange={(e) => setNewFood({...newFood, entry_date: e.target.value})}
+-                />
+-              </div>
+-            </div>
+-            <div className="modal-footer">
+-              <button 
+-                className="btn btn-secondary"
+-                onClick={() => setShowAddFood(false)}
+-              >
+-                Cancel
+-              </button>
+-              <button 
+-                className="btn btn-primary"
+-                onClick={handleAddFood}
+-              >
+-                Add Entry
++        <Modal onClose={() => setShowAddFood(false)}>
++          <h3>What did you eat?</h3>
++
++          <input
++            className="form-input"
++            placeholder="e.g. 2 eggs and chapati"
++            value={foodText}
++            onChange={e => setFoodText(e.target.value)}
++          />
++
++          <button className="btn btn-secondary" onClick={analyzeFood}>
++            {loadingNutrition ? 'Analyzing...' : 'Analyze Food'}
++          </button>
++
++          {nutritionPreview && (
++            <>
++              <p><strong>Calories:</strong> {nutritionPreview.calories}</p>
++              <p><strong>Sodium:</strong> {nutritionPreview.sodium}mg</p>
++
++              <ul>
++                {nutritionPreview.foods.map((f: any, i: number) => (
++                  <li key={i}>
++                    {f.food_name} – {Math.round(f.nf_calories)} cal
++                  </li>
++                ))}
++              </ul>
++
++              <button className="btn btn-primary" onClick={saveFoodEntry}>
++                Save Entry
+               </button>
+-            </div>
+-          </div>
+-        </div>
++            </>
++          )}
++        </Modal>
+       )}
+-     
+-     {randomRecipe && (
+-              <div className="featured-recipe">
+-                <div className="recipe-header">
+-                  <h3>{randomRecipe.title}</h3>
+-                  <button 
+-                    className={`btn ${randomRecipe.is_saved ? 'btn-success' : 'btn-outline'}`}
+-                    onClick={() => saveRecipe(randomRecipe.id)}
+-                    disabled={randomRecipe.is_saved}
+-                  >
+-                    {randomRecipe.is_saved ? (
+-                      <>
+-                        <Check className="w-4 h-4" />
+-                        Saved
+-                      </>
+-                    ) : (
+-                      <>
+-                        <Heart className="w-4 h-4" />
+-                        Save Recipe
+-                      </>
+-                    )}
+-                  </button>
+-                </div>
+-
+-                <div className="recipe-details">
+-                  <div className="recipe-nutrition-summary">
+-                    <div className="nutrition-card">
+-                      <Flame className="w-6 h-6" />
+-                      <div>
+-                        <div className="nutrition-value">{randomRecipe.calories}</div>
+-                        <div className="nutrition-label">Total Calories</div>
+-                      </div>
+-                    </div>
+-                    <div className="nutrition-card">
+-                      <Heart className="w-6 h-6" />
+-                      <div>
+-                        <div className="nutrition-value">{randomRecipe.sodium}mg</div>
+-                        <div className="nutrition-label">Total Sodium</div>
+-                      </div>
+-                    </div>
+-                    <div className="nutrition-card">
+-                      <Users className="w-6 h-6" />
+-                      <div>
+-                        <div className="nutrition-value">4</div>
+-                        <div className="nutrition-label">Servings</div>
+-                      </div>
+-                    </div>
+-                  </div>
+-
+-                  <div className="recipe-section">
+-                    <h4>Ingredients</h4>
+-                  {randomRecipe.ingredients ? (
+-                    <ul className="ingredients-list">
+-                      {randomRecipe.ingredients?.split('\n').map((ingredient, index) => (
+-                        <li key={index}>{ingredient}</li>
+-                      ))}
+-                    </ul>
+-                  ) : (
+-                    <p>No ingredients is available</p>
+-                  )}
+-                  </div>
+-
+-                  <div className="recipe-section">
+-                    <h4>Instructions</h4>
+-                    {randomRecipe.instructions ? (
+-                    <ol className="instructions-list">
+-                      {randomRecipe.instructions.split('\n').map((instruction, index) => (
+-                        <li key={index}>{instruction}</li>
+-                      ))}
+-                     
+-                    </ol>
+-                     ) : (
+-      <p>No recipe available</p>
+-                     )}
+-                  </div>
+-                </div>
+-              </div>
+-            )}
+-
+-
+-
+ 
++      {/* RECIPE MODAL */}
++      {selectedRecipe && (
++        <Modal onClose={() => setSelectedRecipe(null)}>
++          <h3 style={{
++            marginBottom: 12
++          }}>{selectedRecipe.title}</h3>
++          <p style={{
++            marginBottom: 8
++          }}>{selectedRecipe.calories} cal • {selectedRecipe.sodium}mg</p>
++          <h4 style={{
++            marginBottom: 8
++          }}>Ingredients</h4>
++          <ul>{selectedRecipe.ingredients.split('\n').map((i, x) => (<li key={x}>{i}</li>))}</ul>
++          <h4>Instructions</h4>
++          <ol>{selectedRecipe.instructions.split('\n').map((i, x) => (<li key={x}>{i}</li>))}</ol>
++        </Modal>
++      )}
+     </div>
+   );
+ };
+ 
++/* ================= SMALL COMPONENTS ================= */
++
++const Summary = ({ icon, value, label }: any) => (
++  <div className="summary-card">
++    {icon}
++    <div>
++      <div className="summary-value">{value}</div>
++      <div className="summary-label">{label}</div>
++    </div>
++  </div>
++);
++
++const RecipeCard = ({ recipe, onClick }: any) => (
++  <div className="recipe-card" onClick={onClick}>
++  <div className="recipe-card-top">
++     <ChefHat />
++    <h4>{recipe.title}</h4>
++    </div>
++    <span>{recipe.calories} cal • {recipe.sodium}mg</span>
++  </div>
++);
++
++const Modal = ({ children, onClose }: any) => (
++  <div style={{
++    position: 'fixed',
++    inset: 0,
++    background: 'rgba(0,0,0,0.6)',
++    display: 'flex',
++    justifyContent: 'center',
++    alignItems: 'center',
++    zIndex: 1000
++  }}>
++    <div className="card" style={{
++      background: '#fff',
++      padding: 20,
++      borderRadius: 10,
++      width: '90%',
++      maxWidth: 600,
++    }}>
++      <button onClick={onClose} style={{ float: 'right' }}>
++        <X />
++      </button>
++      {children}
++    </div>
++  </div>
++);
++
+ export default FoodPage;
+diff --git a/frontend/src/pages/FoodPaged.tsx b/frontend/src/pages/FoodPaged.tsx
+index 8c6c6f1..c7f0510 100644
+--- a/frontend/src/pages/FoodPaged.tsx
++++ b/frontend/src/pages/FoodPaged.tsx
+@@ -145,13 +145,13 @@ const FoodPage: React.FC = () => {
+   const totalCalories = foodEntries.reduce((sum, entry) => sum + entry.calories, 0);
+   const totalSodium = foodEntries.reduce((sum, entry) => sum + entry.sodium, 0);
+ 
+-  if (loading) {
+-    return (
+-      <div className="food-page">
+-        <div className="loading">Loading food data...</div>
+-      </div>
+-    );
+-  }
++    if (loading) {
++        return (
++              <div className="food-page">
++                      <div className="loading">Loading food data...</div>
++                            </div>
++                                );
++                                  }
+ 
+   return (
+     <div className="food-page">
+diff --git a/frontend/src/pages/LandingPage.tsx b/frontend/src/pages/LandingPage.tsx
+index 40b96a2..b7a9b40 100644
+--- a/frontend/src/pages/LandingPage.tsx
++++ b/frontend/src/pages/LandingPage.tsx
+@@ -1,102 +1,169 @@
+ import React from 'react';
+ import { Link } from 'react-router-dom';
+-import { Heart, Activity, Users, BookOpen, Stethoscope, Calendar } from 'lucide-react';
++import {
++  Heart,
++  Activity,
++  Utensils,
++  Stethoscope,
++  Flame,
++  Calendar,
++  NotebookPen,
++  Users
++} from 'lucide-react';
+ 
+ const LandingPage: React.FC = () => {
+   return (
+     <div className="landing-page">
+-      <nav className="navbar">
+-        <div className="nav-brand">
+-          <Heart className="icon" size={30} />
+-          <span>CradiaHi</span>
+-        </div>
+-        <div className="nav-links">
+-          <Link to="/login">Login</Link>
+-          <Link to="/register" className="cta-button" style={{
+-            color: 'var(--primary-blue)'
+-            }}>Sign Up</Link>
+-        </div>
+-      </nav>
+ 
++      {/* HERO SECTION */}
+       <section className="hero">
+         <div className="hero-content">
+-          <h1>Your Personal Health Companion</h1>
+-          <p>Track your health journey with personalized recipes, medical records, daily exercises, and comprehensive wellness management.</p>
++          <h1>CardiaHi – Protect Your Heart, Every Day</h1>
++          <p>
++            CardiaHi is a heart-focused health companion designed for people who
++            already have heart conditions or want to avoid developing heart
++            problems. The app helps you avoid harmful habits, follow doctor
++            instructions, eat better, stay active, and understand how your daily
++            choices affect your heart health.
++          </p>
++
+           <div className="hero-buttons">
+-            <Link to="/register" className="cta-button">Get Started</Link>
+-            <Link to="/login" className="secondary-button">Learn More</Link>
++            <Link to="/register" className="cta-button">
++              Start Protecting Your Heart
++            </Link>
++            <Link to="/login" className="secondary-button">
++              Login
++            </Link>
+           </div>
+         </div>
+       </section>
+ 
++      {/* FEATURES */}
+       <section className="features">
+-        <h2>Comprehensive Health Features</h2>
++        <h2>How CardiaHi Helps Your Heart</h2>
++
+         <div className="feature-grid">
++
++          {/* PROFILE */}
+           <div className="feature-card">
+             <Users className="feature-icon" size={40} />
+-            <h3>Profile Management</h3>
+-            <p>Edit your profile, manage emergency contacts, and keep your medical information organized</p>
++            <h3>Personal Health Profile</h3>
++            <p>
++              Create and manage your personal health profile with important heart-
++              related details. You can also add emergency contacts so your critical
++              information is always available when needed.
++            </p>
+           </div>
++
++          {/* DOCTOR */}
+           <div className="feature-card">
+-            <BookOpen className="feature-icon" size={40} />
+-            <h3>Smart Recipes</h3>
+-            <p>Get personalized recipe suggestions based on your dietary needs and save your favorites</p>
++            <Stethoscope className="feature-icon" size={40} />
++            <h3>Doctor Diagnosis & Prescriptions</h3>
++            <p>
++              If you are diagnosed with a heart condition, a doctor can add your
++              diagnosis, prescriptions, and daily instructions. CardiaHi helps you
++              follow these medical instructions correctly every day.
++            </p>
+           </div>
++
++          {/* FOOD */}
+           <div className="feature-card">
+-            <Activity className="feature-icon" size={40} />
+-            <h3>Food Tracking</h3>
+-            <p>Track calories and sodium intake, get meal suggestions based on budget and availability</p>
++            <Utensils className="feature-icon" size={40} />
++            <h3>Meal Suggestions for Heart Health</h3>
++            <p>
++              Get meal suggestions that support heart health. Suggestions are based
++              on safer food choices, your budget, and what is commonly available in
++              your area.
++            </p>
+           </div>
++
++          {/* ANALYSIS */}
+           <div className="feature-card">
+-            <Stethoscope className="feature-icon" size={40} />
+-            <h3>Doctor Connect</h3>
+-            <p>Manage diagnoses, prescriptions, and follow medical recommendations with streak tracking</p>
++            <Flame className="feature-icon" size={40} />
++            <h3>Food Intake & Nutrition Analysis</h3>
++            <p>
++              Enter what you have eaten during the day and CardiaHi will analyze
++              calories and sodium levels. This helps you understand how your meals
++              may improve or worsen your heart condition.
++            </p>
+           </div>
++
++          {/* EXERCISE */}
+           <div className="feature-card">
+-            <Calendar className="feature-icon" size={40} />
+-            <h3>Daily Journals</h3>
+-            <p>Document your health journey with text or audio journal entries</p>
++            <Activity className="feature-icon" size={40} />
++            <h3>Daily Exercise Streaks</h3>
++            <p>
++              Maintain healthy habits through short daily exercises. CardiaHi tracks
++              your consistency using streaks, encouraging regular activity that
++              supports heart health.
++            </p>
+           </div>
++
++          {/* JOURNAL */}
+           <div className="feature-card">
+-            <Heart className="feature-icon" size={40} />
+-            <h3>Exercise & Streaks</h3>
+-            <p>Complete daily 3-minute exercises and build healthy habits with streak tracking</p>
++            <NotebookPen className="feature-icon" size={40} />
++            <h3>Daily Feeling Journals</h3>
++            <p>
++              Record how you feel each day using text or audio journals. Users can
++              relate their feelings to what they ate and the activities they
++              completed, helping identify patterns affecting heart health.
++            </p>
+           </div>
++
+         </div>
+       </section>
+ 
++      {/* HOW IT WORKS */}
+       <section className="how-it-works">
+-        <h2>How CradiaHi Works</h2>
++        <h2>How CardiaHi Works</h2>
++
+         <div className="steps-grid">
++
+           <div className="step-card">
+             <div className="step-number">1</div>
+-            <h3>Create Your Profile</h3>
+-            <p>Sign up and set up your health profile with medical information and emergency contacts</p>
++            <h3>Set Up Your Heart Profile</h3>
++            <p>
++              Create an account, add your health information, and include emergency
++              contacts for safety.
++            </p>
+           </div>
++
+           <div className="step-card">
+             <div className="step-number">2</div>
+-            <h3>Track Your Health</h3>
+-            <p>Log food intake, follow doctor recommendations, and complete daily exercises</p>
++            <h3>Follow Daily Guidance</h3>
++            <p>
++              Log meals, follow doctor prescriptions, complete exercises, and
++              journal how you feel each day.
++            </p>
+           </div>
++
+           <div className="step-card">
+             <div className="step-number">3</div>
+-            <h3>Build Healthy Habits</h3>
+-            <p>Maintain streaks, save favorite recipes, and journal your progress</p>
++            <h3>Build Heart-Healthy Habits</h3>
++            <p>
++              Track progress, maintain streaks, and gradually avoid habits that
++              could worsen or cause heart problems.
++            </p>
+           </div>
++
+         </div>
+       </section>
+ 
+-      <footer className="landing-footer">
++      {/* FOOTER */}
++      <div className="landing-footer">
+         <div className="footer-content">
+           <div className="footer-brand">
+             <Heart className="icon" size={25} />
+-            <span>CradiaHi</span>
++            <span>CardiaHi</span>
+           </div>
+-          <p>&copy; 2025 CradiaHi. Your health, our priority.</p>
++          <p>
++            © {new Date().getFullYear()} CardiaHi. Helping you live a heart-healthy life.
++          </p>
+         </div>
+-      </footer>
++      </div>
++
+     </div>
+   );
+ };
+ 
+-export default LandingPage;
+\ No newline at end of file
++export default LandingPage;
+diff --git a/frontend/src/pages/LoginPage.tsx b/frontend/src/pages/LoginPage.tsx
+index 20f167d..1b0a21d 100644
+--- a/frontend/src/pages/LoginPage.tsx
++++ b/frontend/src/pages/LoginPage.tsx
+@@ -33,7 +33,7 @@ const LoginPage: React.FC = () => {
+       <div className="auth-form">
+         <div className="auth-header">
+           <Heart className="auth-icon" size={40} />
+-          <h2>Welcome Back to CradiaHi</h2>
++          <h2>Welcome Back to CARDIA.HI</h2>
+           <p>Sign in to continue your health journey</p>
+         </div>
+         
+diff --git a/frontend/src/pages/RegisterPage.tsx b/frontend/src/pages/RegisterPage.tsx
+index fa12dfa..c5e93f4 100644
+--- a/frontend/src/pages/RegisterPage.tsx
++++ b/frontend/src/pages/RegisterPage.tsx
+@@ -60,7 +60,7 @@ const RegisterPage: React.FC = () => {
+       <div className="auth-form register-form">
+         <div className="auth-header">
+           <Heart className="auth-icon" size={40} />
+-          <h2>Join CradiaHi</h2>
++          <h2>Join CARDIA.HI</h2>
+           <p>Start your health journey today</p>
+         </div>
+         
