@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { 
   User, 
@@ -151,19 +150,7 @@ const ProfilePage: React.FC = () => {
 
   return (
     <div className="profile-page">
-      <nav className="navbar">
-        <div className="nav-brand">
-          <Heart className="icon" size={30} />
-          <span>CradiaHi</span>
-        </div>
-        <div className="nav-links">
-          <Link to="/dashboard">Dashboard</Link>
-          <Link to="/profile">Profile</Link>
-          <Link to="/food">Food</Link>
-          <Link to="/doctors">Doctors</Link>
-          <Link to="/streaks">Streaks</Link>
-        </div>
-      </nav>
+      
 
       <div className="profile-header">
         <h1>My Profile</h1>

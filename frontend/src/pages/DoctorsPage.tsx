@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { 
   Stethoscope, 
@@ -9,8 +8,7 @@ import {
   Calendar,
   FileText,
   User,
-  X,
-  Heart
+  X
 } from 'lucide-react';
 import { base_host } from '../global';
 
@@ -107,19 +105,7 @@ const DoctorsPage: React.FC = () => {
 
   return (
     <div className="doctors-page">
-      <nav className="navbar">
-        <div className="nav-brand">
-          <Heart className="icon" size={30} />
-          <span>CradiaHi</span>
-        </div>
-        <div className="nav-links">
-          <Link to="/dashboard">Dashboard</Link>
-          <Link to="/profile">Profile</Link>
-          <Link to="/food">Food</Link>
-          <Link to="/doctors">Doctors</Link>
-          <Link to="/streaks">Streaks</Link>
-        </div>
-      </nav>
+    
 
       <div className="doctors-header">
         <h1>Medical Care</h1>

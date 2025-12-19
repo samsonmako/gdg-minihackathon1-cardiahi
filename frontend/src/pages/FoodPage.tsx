@@ -1,17 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { 
-  Utensils, 
-  Plus, 
-  Save, 
-  RefreshCw,
-  BookOpen,
-  Heart,
-  X
-} from 'lucide-react';
+import {  Plus, Heart, RefreshCw, Flame, Users, BookOpen, X, Check, ChefHat } from 'lucide-react';
 import { base_host } from '../global';
+import { useAuth } from '../contexts/AuthContext';
+//import { Link } from 'react-router-dom';
 
 interface FoodEntry {
   id: number;
@@ -19,6 +10,8 @@ interface FoodEntry {
   calories: number;
   sodium: number;
   entry_date: string;
+  formatted_date: string;
+  is_today: boolean;
 }
 
 interface Recipe {
@@ -28,302 +21,495 @@ interface Recipe {
   instructions: string;
   calories: number;
   sodium: number;
+  is_saved:boolean;
+  is_heart_healthy: boolean;
+  calories_per_serving: number;
+  sodium_per_serving: number;
+  formatted_date: string;
 }
 
-const FoodPage: React.FC = () => {
-  const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState<'tracker' | 'recipes'>('tracker');
-  const [foodEntries, setFoodEntries] = useState<FoodEntry[]>([]);
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [savedRecipes, setSavedRecipes] = useState<number[]>([]);
-  const [newFoodEntry, setNewFoodEntry] = useState({
+interface NewFood {
+  food_name: string;
+  calories: string;
+  sodium: string;
+  entry_date: string;
+}
+
+
+const FoodPage: React.FC = ()  => {
+  const { user }= useAuth();
+  const [activeTab, setActiveTab] = useState<'diary' | 'recipes' | 'discover' >('diary');
+  const [foodEntries, setFoodEntries] = useState<FoodEntry[]>([]);//useState<'tracker' | 'recipes'>('tracker');
+  const [savedRecipes, setSavedRecipes] = useState<Recipe[]>([]);
+  const [randomRecipe, setRandomRecipe] = useState<Recipe | null >(null);
+  const [showAddFood, setShowAddFood] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [newFood, setNewFood] = useState<NewFood>({
     food_name: '',
     calories: '',
     sodium: '',
     entry_date: new Date().toISOString().split('T')[0]
   });
-  const [loading, setLoading] = useState(true);
-  const [addingFood, setAddingFood] = useState(false);
+
+  const userId = user?.id; // Mock user ID
+ 
 
   useEffect(() => {
-    if (user) {
-      fetchFoodData();
-      fetchRecipes();
-    }
+    if(user)
+    fetchFoodEntries();
+    fetchSavedRecipes();
+    fetchRandomRecipe();
   }, [user]);
 
-  const fetchFoodData = async () => {
-    if (!user) return;
-    
+  const fetchFoodEntries = async () => {
     try {
-      const today = new Date().toISOString().split('T')[0];
-      const response = await axios.get(`${base_host}api/food.php?user_id=${user.id}&date=${today}`);
-      setFoodEntries(response.data.entries || []);
+      const response = await fetch(`${base_host}api/food.php?user_id=${userId}`);
+      const data = await response.json();
+      setFoodEntries(data);
     } catch (error) {
-      console.error('Error fetching food data:', error);
+      console.error('Error fetching food entries:', error);
     }
   };
 
-  const fetchRecipes = async () => {
+  const fetchSavedRecipes = async () => {
     try {
-      const response = await axios.get(`${base_host}api/recipes.php`);
-      setRecipes(response.data);
-      
-      if (user) {
-        const savedResponse = await axios.get(`${base_host}api/recipes.php?user_id=${user.id}&saved=true`);
-        setSavedRecipes(savedResponse.data.map((r: Recipe) => r.id));
-      }
+      const response = await fetch(`${base_host}api/recipes.php?user_id=${userId}`);
+      const data = await response.json();
+      setSavedRecipes(data);
     } catch (error) {
-      console.error('Error fetching recipes:', error);
-    } finally {
-      setLoading(false);
+      console.error('Error fetching saved recipes:', error);
     }
   };
 
-  const handleAddFoodEntry = async () => {
-    if (!user) return;
-    
+  const fetchRandomRecipe = async () => {
     try {
-      await axios.post(`${base_host}api/food.php?user_id=${user.id}`, {
-        ...newFoodEntry,
-        calories: parseInt(newFoodEntry.calories),
-        sodium: parseInt(newFoodEntry.sodium)
-      });
-      
-      setNewFoodEntry({
-        food_name: '',
-        calories: '',
-        sodium: '',
-        entry_date: new Date().toISOString().split('T')[0]
-      });
-      setAddingFood(false);
-      fetchFoodData();
-    } catch (error) {
-      console.error('Error adding food entry:', error);
-    }
-  };
-
-  const handleSaveRecipe = async (recipeId: number) => {
-    if (!user) return;
-    
-    try {
-      await axios.post(`${base_host}api/recipes.php?user_id=${user.id}`, {
-        recipe_id: recipeId
-      });
-      
-      setSavedRecipes([...savedRecipes, recipeId]);
-    } catch (error) {
-      console.error('Error saving recipe:', error);
-    }
-  };
-
-  const handleUnsaveRecipe = async (recipeId: number) => {
-    if (!user) return;
-    
-    try {
-      await axios.delete(`${base_host}api/recipes.php`, {
-        data: { user_id: user.id, recipe_id: recipeId }
-      });
-      
-      setSavedRecipes(savedRecipes.filter(id => id !== recipeId));
-    } catch (error) {
-      console.error('Error unsaving recipe:', error);
-    }
-  };
-
-  const handleGetRandomRecipe = async () => {
-    try {
-      const response = await axios.get(`${base_host}api/recipes.php?random=1`);
-      if (response.data) {
-        setRecipes([response.data, ...recipes.slice(0, -1)]);
-      }
+      const response = await fetch(`${base_host}api/food.php?user_id=${userId}&action=random`);
+      const data = await response.json();
+      setRandomRecipe(data);
     } catch (error) {
       console.error('Error fetching random recipe:', error);
     }
   };
 
-  const totalCalories = foodEntries.reduce((sum, entry) => sum + entry.calories, 0);
-  const totalSodium = foodEntries.reduce((sum, entry) => sum + entry.sodium, 0);
+  const handleAddFood = async () => {
+    if (newFood.food_name && newFood.calories && newFood.sodium) {
+      try {
+        const response = await fetch(`${base_host}api/food.php`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            user_id: userId,
+            ...newFood,
+            calories: parseInt(newFood.calories),
+            sodium: parseInt(newFood.sodium)
+          })
+        });
 
-  if (loading) {
-    return (
-      <div className="food-page">
-        <div className="loading">Loading food data...</div>
-      </div>
-    );
-  }
+        if (response.ok) {
+          setNewFood({
+            food_name: '',
+            calories: '',
+            sodium: '',
+            entry_date: new Date().toISOString().split('T')[0]
+          });
+          setShowAddFood(false);
+          fetchFoodEntries();
+        }
+      } catch (error) {
+        console.error('Error adding food entry:', error);
+      }
+    }
+  };
+
+  const saveRecipe = async (recipeId:any) => {
+    try {
+      const response = await fetch(`${base_host}api/food.php?action=save_recipe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          recipe_id: recipeId
+        })
+      });
+
+      if (response.ok) {
+        fetchSavedRecipes();
+        if (randomRecipe && randomRecipe.id === recipeId) {
+          setRandomRecipe({ ...randomRecipe, is_saved: true });
+        }
+      }
+    } catch (error) {
+      console.error('Error saving recipe:', error);
+    }
+  };
+
+  const deleteFoodEntry = async (entryId:any) => {
+    try {
+      const response = await fetch(`${base_host}api/food.php?id=${entryId}`, {
+        method: 'DELETE'
+      });
+
+      if (response.ok) {
+        fetchFoodEntries();
+      }
+    } catch (error) {
+      console.error('Error deleting food entry:', error);
+    }
+  };
+
+  const calculateDailyTotals = () => {
+    const today = new Date().toISOString().split('T')[0];
+    const todayEntries = foodEntries.filter(entry => entry.entry_date === today);
+    
+    return todayEntries.reduce((totals, entry) => {
+      totals.calories += entry.calories;
+      totals.sodium += entry.sodium;
+      return totals;
+    }, { calories: 0, sodium: 0 });
+  };
+
+  const dailyTotals = calculateDailyTotals();
 
   return (
     <div className="food-page">
-      <nav className="navbar">
-        <div className="nav-brand">
-          <Heart className="icon" size={30} />
-          <span>CradiaHi</span>
+      <div className="container">
+        <div className="page-header">
+          <h1>Nutrition & Diet</h1>
+          <p>Track your meals and discover healthy recipes</p>
         </div>
-        <div className="nav-links">
-          <Link to="/dashboard">Dashboard</Link>
-          <Link to="/profile">Profile</Link>
-          <Link to="/food">Food</Link>
-          <Link to="/doctors">Doctors</Link>
-          <Link to="/streaks">Streaks</Link>
-        </div>
-      </nav>
 
-      <div className="food-header">
-        <h1>Nutrition & Recipes</h1>
-        <div className="tab-navigation">
+        {/* Daily Summary */}
+        <div className="daily-summary">
+          <div className="summary-card">
+            <div className="summary-icon">
+              <Flame className="w-6 h-6" />
+            </div>
+            <div className="summary-content">
+              <div className="summary-value">{dailyTotals.calories}</div>
+              <div className="summary-label">Calories Today</div>
+            </div>
+          </div>
+          <div className="summary-card">
+            <div className="summary-icon">
+              <Heart className="w-6 h-6" />
+            </div>
+            <div className="summary-content">
+              <div className="summary-value">{dailyTotals.sodium}mg</div>
+              <div className="summary-label">Sodium Today</div>
+            </div>
+          </div>
+          <div className="summary-card">
+            <div className="summary-icon">
+              <Users className="w-6 h-6" />
+            </div>
+            <div className="summary-content">
+              <div className="summary-value">{foodEntries.filter(e => e.entry_date === new Date().toISOString().split('T')[0]).length}</div>
+              <div className="summary-label">Meals Today</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Tabs */}
+        <div className="tabs">
           <button 
-            className={`tab-btn ${activeTab === 'tracker' ? 'active' : ''}`}
-            onClick={() => setActiveTab('tracker')}
+            className={`tab ${activeTab === 'diary' ? 'active' : ''}`}
+            onClick={() => setActiveTab('diary')}
           >
-            <Utensils size={20} /> Food Tracker
+            Food Diary
           </button>
           <button 
-            className={`tab-btn ${activeTab === 'recipes' ? 'active' : ''}`}
+            className={`tab ${activeTab === 'recipes' ? 'active' : ''}`}
             onClick={() => setActiveTab('recipes')}
           >
-            <BookOpen size={20} /> Recipes
+            Saved Recipes
+          </button>
+          <button 
+            className={`tab ${activeTab === 'discover' ? 'active' : ''}`}
+            onClick={() => setActiveTab('discover')}
+          >
+            Discover
           </button>
         </div>
-      </div>
 
-      {activeTab === 'tracker' && (
-        <div className="food-tracker">
-          <div className="daily-summary">
-            <div className="summary-card">
-              <h3>Today's Calories</h3>
-              <div className="value">{totalCalories}</div>
-              <p>Recommended: 2000</p>
-            </div>
-            <div className="summary-card">
-              <h3>Today's Sodium</h3>
-              <div className="value">{totalSodium} mg</div>
-              <p>Recommended: 2300mg</p>
-            </div>
-          </div>
-
-          <div className="food-entry-form">
-            {!addingFood ? (
-              <button className="btn btn-primary" onClick={() => setAddingFood(true)}>
-                <Plus size={20} /> Add Food Entry
+        {/* Food Diary Tab */}
+        {activeTab === 'diary' && (
+          <div className="tab-content">
+            <div className="diary-header">
+              <h3>Your Food Diary</h3>
+              <button 
+                className="btn btn-primary"
+                onClick={() => setShowAddFood(true)}
+              >
+                <Plus className="w-4 h-4" />
+                Add Food
               </button>
-            ) : (
-              <div className="add-food-form">
-                <h3>Add Food Entry</h3>
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Food Name</label>
-                    <input
-                      type="text"
-                      value={newFoodEntry.food_name}
-                      onChange={(e) => setNewFoodEntry({...newFoodEntry, food_name: e.target.value})}
-                      placeholder="Enter food name"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Calories</label>
-                    <input
-                      type="number"
-                      value={newFoodEntry.calories}
-                      onChange={(e) => setNewFoodEntry({...newFoodEntry, calories: e.target.value})}
-                      placeholder="Calories"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Sodium (mg)</label>
-                    <input
-                      type="number"
-                      value={newFoodEntry.sodium}
-                      onChange={(e) => setNewFoodEntry({...newFoodEntry, sodium: e.target.value})}
-                      placeholder="Sodium in mg"
-                    />
-                  </div>
-                </div>
-                <div className="form-actions">
-                  <button className="btn btn-primary" onClick={handleAddFoodEntry}>
-                    <Save size={20} /> Save Entry
-                  </button>
-                  <button className="btn btn-secondary" onClick={() => setAddingFood(false)}>
-                    <X size={20} /> Cancel
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
+            </div>
 
-          <div className="food-entries-list">
-            <h3>Today's Food Entries</h3>
-            {foodEntries.length === 0 ? (
-              <p>No food entries for today. Start tracking your meals!</p>
-            ) : (
-              foodEntries.map((entry) => (
-                <div key={entry.id} className="food-entry-item">
-                  <div className="food-info">
-                    <h4>{entry.food_name}</h4>
-                    <div className="nutrition-info">
-                      <span className="calorie-info">{entry.calories} cal</span>
-                      <span className="sodium-info">{entry.sodium}mg sodium</span>
+            <div className="food-entries">
+              {foodEntries.length === 0 ? (
+                <div className="empty-state">
+                  <BookOpen className="w-12 h-12" />
+                  <h3>No food entries yet</h3>
+                  <p>Start tracking your meals to see your nutrition data</p>
+                </div>
+              ) : (
+                foodEntries.map((entry) => (
+                  <div key={entry.id} className="food-entry">
+                    <div className="entry-info">
+                      <h4>{entry.food_name}</h4>
+                      <div className="entry-meta">
+                        <span className="entry-date">{entry.formatted_date}</span>
+                        {entry.is_today && <span className="badge badge-primary">Today</span>}
+                      </div>
+                    </div>
+                    <div className="entry-nutrition">
+                      <span className="nutrition-item">
+                        <Flame className="w-4 h-4" />
+                        {entry.calories} cal
+                      </span>
+                      <span className="nutrition-item">
+                        <Heart className="w-4 h-4" />
+                        {entry.sodium}mg
+                      </span>
+                    </div>
+                    <button 
+                      className="btn btn-icon btn-danger"
+                      onClick={() => deleteFoodEntry(entry.id)}
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        )}
+        {/* Saved Recipes Tab */}
+        {activeTab === 'recipes' && (
+          <div className="tab-content">
+            <div className="recipes-header">
+              <h3>Saved Recipes</h3>
+              <div className="recipes-count">
+                {savedRecipes.length} recipes saved
+              </div>
+            </div>
+
+            <div className="recipes-grid">
+              {savedRecipes.length === 0 ? (
+                <div className="empty-state">
+                  <Heart className="w-12 h-12" />
+                  <h3>No saved recipes yet</h3>
+                  <p>Discover and save heart-healthy recipes for your diet</p>
+                </div>
+              ) : (
+                savedRecipes.map((recipe) => (
+                  <div key={recipe.id} className="recipe-card">
+                    <div className="recipe-image">
+                      <div className="recipe-placeholder">
+                        <ChefHat className="w-8 h-8" />
+                      </div>
+                      {recipe.is_heart_healthy && (
+                        <div className="recipe-badge">Heart Healthy</div>
+                      )}
+                    </div>
+                    <div className="recipe-content">
+                      <h4>{recipe.title}</h4>
+                      <div className="recipe-nutrition">
+                        <span className="nutrition-item">
+                          <Flame className="w-4 h-4" />
+                          {recipe.calories_per_serving} cal/serving
+                        </span>
+                        <span className="nutrition-item">
+                          <Heart className="w-4 h-4" />
+                          {recipe.sodium_per_serving}mg/serving
+                        </span>
+                      </div>
+                      <div className="recipe-date">
+                        Saved {recipe.formatted_date}
+                      </div>
                     </div>
                   </div>
-                  <div className="food-time">
-                    {new Date(entry.entry_date).toLocaleTimeString()}
-                  </div>
-                </div>
-              ))
-            )}
+                ))
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Discover Tab */}
+        {activeTab === 'discover' && (
+          <div className="tab-content">
+            <div className="discover-header">
+              <h3>Discover New Recipes</h3>
+              <button 
+                className="btn btn-secondary"
+                onClick={fetchRandomRecipe}
+              >
+                <RefreshCw className="w-4 h-4" />
+                Get New Recipe
+              </button>
+            </div>
+
+                      </div>
+        )}
+      </div>
+
+      {/* Add Food Modal */}
+      {showAddFood && (
+        <div className="modal">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h3>Add Food Entry</h3>
+              <button 
+                className="btn btn-icon"
+                onClick={() => setShowAddFood(false)}
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="form-group">
+                <label>Food Name</label>
+                <input
+                  type="text"
+                  className="form-input"
+                  value={newFood.food_name}
+                  onChange={(e) => setNewFood({...newFood, food_name: e.target.value})}
+                  placeholder="e.g., Grilled Chicken Salad"
+                />
+              </div>
+              <div className="form-group">
+                <label>Calories</label>
+                <input
+                  type="number"
+                  className="form-input"
+                  value={newFood.calories}
+                  onChange={(e) => setNewFood({...newFood, calories: e.target.value})}
+                  placeholder="e.g., 350"
+                />
+              </div>
+              <div className="form-group">
+                <label>Sodium (mg)</label>
+                <input
+                  type="number"
+                  className="form-input"
+                  value={newFood.sodium}
+                  onChange={(e) => setNewFood({...newFood, sodium: e.target.value})}
+                  placeholder="e.g., 450"
+                />
+              </div>
+              <div className="form-group">
+                <label>Date</label>
+                <input
+                  type="date"
+                  className="form-input"
+                  value={newFood.entry_date}
+                  onChange={(e) => setNewFood({...newFood, entry_date: e.target.value})}
+                />
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button 
+                className="btn btn-secondary"
+                onClick={() => setShowAddFood(false)}
+              >
+                Cancel
+              </button>
+              <button 
+                className="btn btn-primary"
+                onClick={handleAddFood}
+              >
+                Add Entry
+              </button>
+            </div>
           </div>
         </div>
       )}
-
-      {activeTab === 'recipes' && (
-        <div className="recipes-section">
-          <div className="recipes-header">
-            <h3>Healthy Recipes</h3>
-            <button className="btn btn-secondary" onClick={handleGetRandomRecipe}>
-              <RefreshCw size={20} /> Get Random Recipe
-            </button>
-          </div>
-
-          <div className="recipes-grid">
-            {recipes.map((recipe) => (
-              <div key={recipe.id} className="recipe-card">
+     
+     {randomRecipe && (
+              <div className="featured-recipe">
                 <div className="recipe-header">
-                  <h4>{recipe.title}</h4>
+                  <h3>{randomRecipe.title}</h3>
                   <button 
-                    className={`btn btn-icon ${savedRecipes.includes(recipe.id) ? 'btn-saved' : 'btn-save'}`}
-                    onClick={() => {
-                      if (savedRecipes.includes(recipe.id)) {
-                        handleUnsaveRecipe(recipe.id);
-                      } else {
-                        handleSaveRecipe(recipe.id);
-                      }
-                    }}
+                    className={`btn ${randomRecipe.is_saved ? 'btn-success' : 'btn-outline'}`}
+                    onClick={() => saveRecipe(randomRecipe.id)}
+                    disabled={randomRecipe.is_saved}
                   >
-                    <Heart size={20} fill={savedRecipes.includes(recipe.id) ? 'currentColor' : 'none'} />
+                    {randomRecipe.is_saved ? (
+                      <>
+                        <Check className="w-4 h-4" />
+                        Saved
+                      </>
+                    ) : (
+                      <>
+                        <Heart className="w-4 h-4" />
+                        Save Recipe
+                      </>
+                    )}
                   </button>
                 </div>
-                
-                <div className="recipe-nutrition">
-                  <span className="calories">{recipe.calories} cal</span>
-                  <span className="sodium">{recipe.sodium}mg sodium</span>
-                </div>
-                
-                <div className="recipe-content">
-                  <div className="ingredients">
-                    <h5>Ingredients:</h5>
-                    <p>{recipe.ingredients}</p>
+
+                <div className="recipe-details">
+                  <div className="recipe-nutrition-summary">
+                    <div className="nutrition-card">
+                      <Flame className="w-6 h-6" />
+                      <div>
+                        <div className="nutrition-value">{randomRecipe.calories}</div>
+                        <div className="nutrition-label">Total Calories</div>
+                      </div>
+                    </div>
+                    <div className="nutrition-card">
+                      <Heart className="w-6 h-6" />
+                      <div>
+                        <div className="nutrition-value">{randomRecipe.sodium}mg</div>
+                        <div className="nutrition-label">Total Sodium</div>
+                      </div>
+                    </div>
+                    <div className="nutrition-card">
+                      <Users className="w-6 h-6" />
+                      <div>
+                        <div className="nutrition-value">4</div>
+                        <div className="nutrition-label">Servings</div>
+                      </div>
+                    </div>
                   </div>
-                  
-                  <div className="instructions">
-                    <h5>Instructions:</h5>
-                    <p>{recipe.instructions}</p>
+
+                  <div className="recipe-section">
+                    <h4>Ingredients</h4>
+                  {randomRecipe.ingredients ? (
+                    <ul className="ingredients-list">
+                      {randomRecipe.ingredients?.split('\n').map((ingredient, index) => (
+                        <li key={index}>{ingredient}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>No ingredients is available</p>
+                  )}
+                  </div>
+
+                  <div className="recipe-section">
+                    <h4>Instructions</h4>
+                    {randomRecipe.instructions ? (
+                    <ol className="instructions-list">
+                      {randomRecipe.instructions.split('\n').map((instruction, index) => (
+                        <li key={index}>{instruction}</li>
+                      ))}
+                     
+                    </ol>
+                     ) : (
+      <p>No recipe available</p>
+                     )}
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      )}
+            )}
+
+
+
+
     </div>
   );
 };

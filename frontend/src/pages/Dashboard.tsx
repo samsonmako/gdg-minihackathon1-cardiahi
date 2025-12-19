@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { 
-  Heart, 
+  
   BookOpen, 
   Activity, 
   Stethoscope, 
@@ -90,19 +90,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="dashboard-container">
-      <nav className="navbar">
-        <div className="nav-brand">
-          <Heart className="icon" size={30} />
-          <span>CradiaHi</span>
-        </div>
-        <div className="nav-links">
-          <Link to="/dashboard">Dashboard</Link>
-          <Link to="/profile">Profile</Link>
-          <Link to="/food">Food</Link>
-          <Link to="/doctors">Doctors</Link>
-          <Link to="/streaks">Streaks</Link>
-        </div>
-      </nav>
+
 
       <div className="dashboard-header">
         <h1>Welcome, {user?.name}!</h1>
