@@ -5,18 +5,7 @@ import { Heart, Activity, Users, BookOpen, Stethoscope, Calendar } from 'lucide-
 const LandingPage: React.FC = () => {
   return (
     <div className="landing-page">
-      <nav className="navbar">
-        <div className="nav-brand">
-          <Heart className="icon" size={30} />
-          <span>CradiaHi</span>
-        </div>
-        <div className="nav-links">
-          <Link to="/login">Login</Link>
-          <Link to="/register" className="cta-button" style={{
-            color: 'var(--primary-blue)'
-            }}>Sign Up</Link>
-        </div>
-      </nav>
+      
 
       <section className="hero">
         <div className="hero-content">
@@ -86,7 +75,7 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      <footer className="landing-footer">
+      <div className="landing-footer">
         <div className="footer-content">
           <div className="footer-brand">
             <Heart className="icon" size={25} />
@@ -94,7 +83,7 @@ const LandingPage: React.FC = () => {
           </div>
           <p>&copy; 2025 CradiaHi. Your health, our priority.</p>
         </div>
-      </footer>
+      </div>
     </div>
   );
 };
